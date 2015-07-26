@@ -20,6 +20,8 @@ app.config([ '$routeProvider', '$controllerProvider', function($routeProvider, $
 
 app.run(['$location', '$rootScope', function($location, $rootScope) {
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-        $rootScope.title = current.$$route.title;
+        if (current.$$route && current.$$route.title) {
+            $rootScope.title = current.$$route.title;
+        }
     });
 }]);
