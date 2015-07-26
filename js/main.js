@@ -11,8 +11,8 @@ angular.module('magmanager')
             templateUrl: 'view/home.html'
         })
         .when('/vendor/:id', {
-            title: 'Vendor',
-            templateUrl: 'view/vendorid.html'
+            title: 'Products',
+            templateUrl: 'view/product.html'
         })
         .when('/vendor', {
             title: 'Vendors',

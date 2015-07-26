@@ -1,6 +1,5 @@
 angular.module('magmanager')
-    .registerCtrl('vendorController', [ '$scope', 'Vendor', function($scope, Vendor) {
-        $scope.vendors = Vendor.query(function() {
-            console.log('Vendors query completed');
-        });
+    .registerCtrl('vendorController', [ '$scope', 'vendorService', function($scope, vendorService) {
+        $scope.vendorSvc = vendorService;
+        vendorService.GetVendors();
     }]);

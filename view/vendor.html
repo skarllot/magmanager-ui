@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="v in vendors">
+            <tr ng-repeat="v in vendorSvc.Vendors">
                 <td ng-bind="v.name"></td>
                 <td>
                     <a href="#/vendor/{{ v.id }}"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span> <span class="badge" ng-bind="v.products.length"></span></a>

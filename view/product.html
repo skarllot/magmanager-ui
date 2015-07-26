@@ -1,0 +1,26 @@
+<script src="js/product.js"></script>
+<style>
+    .container h1 .glyphicon {
+        vertical-align: middle;
+        margin-top: -5px;
+    }
+</style>
+
+<div class="container" ng-controller="productController">
+    <h1><a href="#/vendor"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a> <span ng-bind="vendorSvc.Vendor.name"></span></h1>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Technology</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="p in vendorSvc.Vendor.products">
+                <td ng-bind="p.technology"></td>
+                <td ng-bind="p.name"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

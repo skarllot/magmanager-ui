@@ -16,7 +16,7 @@ describe('MagManager', function() {
         });
 
         it('listing', function() {
-            var vendors = element.all(by.repeater('v in vendors'));
+            var vendors = element.all(by.repeater('v in vendorSvc.Vendors'));
             expect(vendors.count()).toBeGreaterThan(0);
         });
     });
