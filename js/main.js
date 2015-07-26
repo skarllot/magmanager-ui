@@ -1,4 +1,4 @@
-var app = angular.module('magmanager', [ 'ngRoute', 'ui.bootstrap' ]);
+var app = angular.module('magmanager', [ 'ngRoute', 'ngResource', 'ui.bootstrap' ]);
 
 app.config([ '$routeProvider', '$controllerProvider', function($routeProvider, $controllerProvider) {
     // Lazy loading
