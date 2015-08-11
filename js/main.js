@@ -17,7 +17,8 @@ angular.module('magmanager')
         })
         .when('/vendor', {
             title: 'Vendors',
-            templateUrl: 'view/vendor.html'
+            templateUrl: 'view/vendor.html',
+            reloadOnSearch: false
         })
         .otherwise({
             redirectTo: '/'

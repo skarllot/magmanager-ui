@@ -13,4 +13,12 @@ angular.module('magmanager')
             vendorService.UpdateVendor(vendor);
             $location.search({});
         }
+        
+        $scope.$on('$routeUpdate', function(scope, next, current) {
+            if ($routeParams.edit) {
+                $scope.edit = $routeParams.edit;
+            } else {
+                $scope.edit = '';
+            }
+        });
     }]);
