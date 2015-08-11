@@ -14,6 +14,12 @@
             </tr>
         </thead>
         <tbody>
+            <tr ng-hide="loaded">
+                <td><span class="fa fa-spinner" aria-hidden="true"></span> Loading...</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
             <tr ng-repeat="v in vendorSvc.Vendors">
                 <td>
                     <span ng-bind="v.name" ng-hide="edit == v.id"></span>
@@ -23,23 +29,25 @@
                     <span class="badge" ng-bind="v.products.length"></span>
                 </td>
                 <td class="col-md-1">
-                    <a href="#/vendor/{{ v.id }}" ng-hide="edit == v.id"><span class="fa fa-filter"></span></a>
+                    <a href="#/vendor/{{ v.id }}" ng-hide="edit == v.id">
+                        <span class="fa fa-filter" tooltip="Show products from this vendor"></span>
+                    </a>
+                    <a href="#/vendor" ng-show="edit == v.id">
+                        <span class="fa fa-ban" tooltip="Cancel edit"></span>
+                    </a>
                 </td>
                 <td class="col-md-1">
-                    <a href="#/vendor?edit={{ v.id }}" ng-hide="edit == v.id"><span class="fa fa-pencil-square-o" aria-hidden="true"></span></a>
-                    <a href="" ng-click="save(v);" ng-show="edit == v.id"><span class="fa fa-floppy-o"></span></a>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <span class="fa fa-plus-square-o" aria-hidden="true"></span>
+                    <a href="#/vendor?edit={{ v.id }}" ng-hide="edit == v.id">
+                        <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
+                    </a>
+                    <a href="" ng-click="save(v);" ng-show="edit == v.id">
+                        <span class="fa fa-floppy-o" tooltip="Save changes"></span>
+                    </a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <a href="#/vendor?new=true" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New vendor</a>
 </div>
 </div>
 </div>
