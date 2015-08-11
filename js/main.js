@@ -1,3 +1,4 @@
+jQuery.ajaxSetup({ cache: true });
 angular.module('magmanager', [ 'ngRoute', 'ngResource', 'ui.bootstrap' ]);
 
 angular.module('magmanager')
