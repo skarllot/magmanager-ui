@@ -14,7 +14,14 @@ angular.module('magmanager')
         $scope.save = function(vendor) {
             vendorService.UpdateVendor(vendor);
             $location.search({});
-        }
+        };
+        $scope.refresh = function() {
+            vendorService.Vendors = [];
+            $scope.loaded = false;
+            vendorService.GetVendors(function() {
+                $scope.loaded = true;
+            });
+        };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
             if ($routeParams.edit) {
