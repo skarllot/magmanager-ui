@@ -1,21 +1,29 @@
 <script src="js/vendor.js"></script>
 
 <div class="container" ng-controller="vendorController">
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
     <h1>Vendors</h1>
     <table class="table">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Products</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="v in vendorSvc.Vendors">
                 <td ng-bind="v.name"></td>
                 <td>
-                    <a href="#/vendor/{{ v.id }}"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span> <span class="badge" ng-bind="v.products.length"></span></a>
+                    <span class="badge" ng-bind="v.products.length"></span>
+                </td>
+                <td>
+                    <a href="#/vendor/{{ v.id }}"><span class="fa fa-filter"></span></a>
                 </td>
             </tr>
         </tbody>
     </table>
+</div>
+</div>
 </div>
