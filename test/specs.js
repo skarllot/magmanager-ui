@@ -6,6 +6,8 @@ describe('MagManager', function() {
     
     describe('vendor', function() {
         var addressVendor = address + '#/vendor';
+        var vendorList = element.all(by.repeater('v in vendors'));
+        
         it('open page', function() {
             browser.get(address);
 
@@ -16,13 +18,11 @@ describe('MagManager', function() {
         });
 
         it('listing', function() {
-            expect(
-                element.all(by.repeater('v in vendors')).count()
-            ).toBeGreaterThan(0);
+            expect(vendorList.count()).toBeGreaterThan(0);
         });
         
         it('products', function() {
-            element.all(by.repeater('v in vendors'))
+            vendorList
                 .get(0)
                 .element(by.css('.vendor-filter'))
                 .click();
@@ -32,15 +32,80 @@ describe('MagManager', function() {
             ).toBeGreaterThan(0);
         });
         
-        it('loading status when return from products', function() {
+        it('return from products', function() {
             element(by.css('.container .row div h1 a')).click();
             browser.getCurrentUrl().then(function(url) {
                 expect(url).toBe(addressVendor);
             });
             
+            expect(vendorList.count()).toBeGreaterThan(0);
+        });
+        
+        it('loading status after return from products', function() {
             expect(
                 element(by.css('.vendors-loading')).isDisplayed()
             ).toBeFalsy();
+        });
+        
+        it('create', function() {
+            vendorList.count().then(function(vendorCount) {
+                element(by.css('#vendor-new')).click();
+
+                var vName = element(by.model('vendor.name'));
+                var btnSave = element(by.buttonText('Save'));
+
+                expect(vName.isPresent()).toBe(true);
+                expect(btnSave.isPresent()).toBe(true);
+
+                vName.sendKeys('TEST VENDOR');
+                btnSave.click();
+
+                expect(vendorList.count()).toEqual(vendorCount + 1);
+            });
+        });
+        
+        it('edit', function() {
+            var vName = vendorList
+                .last()
+                .element(by.binding('name'));
+            
+            expect(vName.isPresent()).toBe(true);
+            
+            vName.getText().then(function(name) {
+                var appendText = 'EDITED';
+                vendorList
+                    .last()
+                    .element(by.css('.vendor-edit'))
+                    .click();
+                
+                txtVName = element(by.model('vendor.name'));
+                var btnSave = element(by.buttonText('Save'));
+                var btnCancel = element(by.buttonText('Cancel'));
+                
+                expect(txtVName.isPresent()).toBe(true);
+                expect(btnSave.isPresent()).toBe(true);
+                expect(btnCancel.isPresent()).toBe(true);
+                
+                txtVName.sendKeys(appendText);
+                btnSave.click();
+                
+                expect(vName.getText()).toEqual(name + appendText);
+            });
+        });
+        
+        it('delete', function() {
+            vendorList.count().then(function(vendorCount) {
+                vendorList
+                    .last()
+                    .element(by.css('.vendor-delete'))
+                    .click();
+
+                var btnYes = element(by.buttonText('Yes'));
+                expect(btnYes.isPresent()).toBe(true);
+                btnYes.click();
+
+                expect(vendorList.count()).toEqual(vendorCount - 1);
+            });
         });
     });
 });
