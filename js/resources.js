@@ -105,4 +105,15 @@ angular.module('magmanager')
                 fn(result);
             });
         };
+        
+        this.DeleteVendor = function(vendor, fn) {
+            if (!fn) { fn = function() {}; }
+            
+            vendor.remove().then(function() {
+                getVendorById(vendor.id, function(index) {
+                    vendorList.splice(index, 1);
+                    fn(vendor.id);
+                });
+            });
+        };
     }]);

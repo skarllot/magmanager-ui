@@ -51,12 +51,36 @@ angular.module('magmanager')
                 $location.search({});
             });
         };
+        $scope.openDelete = function(vendorTarget) {
+            var modalInstance = $modal.open({
+                templateUrl: 'modalVendorDelete.html',
+                controller: 'vendorDeleteController',
+                backdrop: 'static',
+                resolve: {
+                    vendorId: function() {
+                        return $routeParams.delete;
+                    }
+                }
+            });
+            
+            modalInstance.result.then(function(selectedItem) {
+                vendorService.GetVendors(function(result) {
+                    $scope.vendors = result;
+                });
+                $location.search({});
+            }, function(msg) {
+                console.info(msg);
+                $location.search({});
+            });
+        };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
             if ($routeParams.edit)
                 $scope.openEdit();
             if ($routeParams.new)
                 $scope.openCreate();
+            if ($routeParams.delete)
+                $scope.openDelete();
         });
         
         if ($routeParams.edit) {
@@ -64,6 +88,9 @@ angular.module('magmanager')
         }
         if ($routeParams.new) {
             $scope.openCreate();
+        }
+        if ($routeParams.delete) {
+            $scope.openDelete();
         }
         
         vendorService.GetVendors(function(result) {
@@ -124,6 +151,26 @@ angular.module('magmanager')
             }
             
             vendorService.CreateVendor($scope.vendor, function(result) {
+                $modalInstance.close();
+            });
+        };
+        
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+        };
+    }]);
+
+angular.module('magmanager')
+    .registerCtrl('vendorDeleteController', [ '$scope', '$modalInstance', 'vendorService', 'vendorId', function($scope, $modalInstance, vendorService, vendorId) {
+        $scope.vendor = {};
+        $scope.confirm = false;
+        
+        vendorService.GetVendor(vendorId, function(v) {
+            $scope.vendor = v;
+        });
+        
+        $scope.ok = function() {
+            vendorService.DeleteVendor($scope.vendor, function() {
                 $modalInstance.close();
             });
         };

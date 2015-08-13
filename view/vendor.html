@@ -3,6 +3,10 @@
     .modal-backdrop {
         height: 100%;
     }
+    .vendor-crud a {
+        color: black;
+        margin-right: .5em;
+    }
 </style>
 
 <div ng-controller="vendorController">
@@ -15,14 +19,12 @@
                 <tr>
                     <th>Name</th>
                     <th>Products</th>
-                    <th></th>
-                    <th></th>
+                    <th class="col-md-1"><span class="sr-only">Filter, edit or remove</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="vendors-loading" ng-hide="loaded">
                     <td><span class="fa fa-spinner" aria-hidden="true"></span> Loading...</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                 </tr>
@@ -33,14 +35,15 @@
                     <td>
                         <span class="badge" ng-bind="v.products.length"></span>
                     </td>
-                    <td class="col-md-1">
+                    <td class="vendor-crud" nowrap>
                         <a href="#/vendor/{{ v.id }}" class="vendor-filter">
                             <span class="fa fa-filter" tooltip="Show products from this vendor"></span>
                         </a>
-                    </td>
-                    <td class="col-md-1">
                         <a href="#/vendor?edit={{ v.id }}">
                             <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
+                        </a>
+                        <a href="#/vendor?delete={{ v.id }}">
+                            <span class="fa fa-trash-o" tooltip="Remove vendor"></span>
                         </a>
                     </td>
                 </tr>
@@ -94,6 +97,33 @@
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">Save</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    
+    <script type="text/ng-template" id="modalVendorDelete.html">
+        <div class="modal-header">
+            <button type="button" class="close" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span></button>
+            <h3 class="modal-title">Delete Vendor?</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2">Id</label>
+                    <span ng-bind="vendor.id"></span>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Name</label>
+                    <span ng-bind="vendor.name"></span>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Products</label>
+                    <span ng-bind="vendor.products.length + ' items'"></span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">Yes</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">No</button>
         </div>
     </script>
 </div>
