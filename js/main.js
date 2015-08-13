@@ -1,5 +1,5 @@
 //jQuery.ajaxSetup({ cache: true });
-angular.module('magmanager', [ 'ngRoute', 'ngResource', 'ui.bootstrap' ]);
+angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
 
 angular.module('magmanager')
     .config([ '$routeProvider', '$controllerProvider', function($routeProvider, $controllerProvider) {

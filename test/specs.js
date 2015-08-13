@@ -17,18 +17,18 @@ describe('MagManager', function() {
 
         it('listing', function() {
             expect(
-                element.all(by.repeater('v in vendorSvc.Vendors')).count()
+                element.all(by.repeater('v in vendors')).count()
             ).toBeGreaterThan(0);
         });
         
         it('products', function() {
-            element.all(by.repeater('v in vendorSvc.Vendors'))
+            element.all(by.repeater('v in vendors'))
                 .get(0)
                 .element(by.css('.vendor-filter'))
                 .click();
             
             expect(
-                element.all(by.repeater('p in vendorSvc.Vendor.products')).count()
+                element.all(by.repeater('p in vendor.products')).count()
             ).toBeGreaterThan(0);
         });
         

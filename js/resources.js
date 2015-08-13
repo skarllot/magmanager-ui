@@ -1,58 +1,89 @@
 angular.module('magmanager')
-    .factory('Vendor', function($resource) {
-        return $resource(apiAddress + 'vendor/:id', { id: '@id' }, {
-            update: { method: 'PUT' }
-        });
-    })
-    .service('vendorService', [ 'Vendor', function(Vendor) {
-        this.Vendors = [];
-        this.Vendor = {};
+    .service('vendorService', [ 'Restangular', function(Restangular) {
+        Restangular.setBaseUrl(apiAddress);
+        var vendors = Restangular.all('vendor');
+        var fetchedData = false;
+        var vendorList = [];
+        var myself = this;
+        this.CurrentVendor = -1;
         
-        this.GetVendors = function(fn) {
+        this.GetVendors = function(fn, force) {
             if (!fn) { fn = function() {}; }
-            if (this.Vendors.length < 1)
-                this.Vendors = Vendor.query(fn);
+            force = force || false;
+            
+            if (force || !fetchedData)
+                vendors.getList().then(function(result) {
+                    vendorList = result;
+                    fetchedData = true;
+                    fn(result);
+                });
             else
-                fn(this.Vendors);
+                fn(vendorList);
         };
         
-        this.preloadVendors = function(caller, fn) {
-            if (this.Vendors.length < 1) {
-                this.GetVendors(function() {
-                    caller(id, fn);
+        var getVendorById = function(id, caller) {
+            if (!fetchedData) {
+                myself.GetVendors(function() {
+                    getVendorById(id, caller);
                 });
-                return true;
+                return;
             }
             
-            return false;
-        };
-        
-        this.unsafeGetVendor = function(id) {
-            for (i=0; i < this.Vendors.length; ++i) {
-                if (this.Vendors[i].id == id) {
-                    return this.Vendors[i];
+            for (i=0; i < vendorList.length; ++i) {
+                if (vendorList[i].id == id) {
+                    caller(i);
+                    return;
                 }
             }
+            caller(-1);
+        };
+        
+        this.CopyVendor = function(id, fn) {
+            if (!fn) { fn = function() {}; }
             
-            return null;
+            myself.GetVendor(id, function(v) {
+                var vEdit = Restangular.copy(v);
+                fn(vEdit);
+            });
+        };
+        
+        this.CompareVendor = function(v, fn) {
+            if (!fn) { fn = function() {}; }
+            
+            myself.GetVendor(v.id, function(v2) {
+                fn(angular.equals(v, v2));
+            });
         };
         
         this.GetVendor = function(id, fn) {
             if (!fn) { fn = function() {}; }
             
-            if (this.preloadVendors(this.GetVendor, fn))
-                return;
+            if (fetchedData && this.CurrentVendor > -1) {
+                var current = vendorList[this.CurrentVendor];
+                if (current.id == id) {
+                    fn(current);
+                    return;
+                }
+            }
             
-            var vendor = this.unsafeGetVendor(id);
-            if (vendor)
-                this.Vendor = vendor;
-            
-            fn(this.Vendor);
+            getVendorById(id, function(index) {
+                this.CurrentVendor = index;
+                var v = null;
+                if (index > -1)
+                    v = vendorList[index];
+                
+                fn(v);
+            });
         };
         
         this.UpdateVendor = function(vendor, fn) {
             if (!fn) { fn = function() {}; }
             
-            vendor.$update();
+            vendor.put().then(fn);
+            this.CompareVendor(vendor, function(result) {
+                if (!result && this.CurrentVendor > -1) {
+                    vendorList[this.CurrentVendor] = vendor;
+                }
+            });
         };
     }]);
