@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-hide="loaded">
+            <tr class="vendors-loading" ng-hide="loaded">
                 <td><span class="fa fa-spinner" aria-hidden="true"></span> Loading...</td>
                 <td></td>
                 <td></td>
@@ -29,7 +29,7 @@
                     <span class="badge" ng-bind="v.products.length"></span>
                 </td>
                 <td class="col-md-1">
-                    <a href="#/vendor/{{ v.id }}" ng-hide="edit == v.id">
+                    <a href="#/vendor/{{ v.id }}" class="vendor-filter" ng-hide="edit == v.id">
                         <span class="fa fa-filter" tooltip="Show products from this vendor"></span>
                     </a>
                     <a href="#/vendor" ng-show="edit == v.id">

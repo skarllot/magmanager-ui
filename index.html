@@ -37,7 +37,12 @@
             </div>
             <div class="navbar-collapse" collapse="navCollapsed">
                 <ul class="nav navbar-nav">
-                    <li ng-class="{ active: isView('/') }" ng-click="toggleNav()"><a href="#/">Home</a></li>
+                    <li ng-class="{ active: isView('/') }" ng-click="toggleNav()">
+                        <a href="#/">Home</a>
+                    </li>
+                    <li ng-class="{ active: isView('/vendor', true) }" ng-click="toggleNav()">
+                        <a href="#/vendor">Vendors</a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -10,8 +10,10 @@ angular.module('magmanager')
         
         this.GetVendors = function(fn) {
             if (!fn) { fn = function() {}; }
-            if (this.Vendors.length < 1 )
+            if (this.Vendors.length < 1)
                 this.Vendors = Vendor.query(fn);
+            else
+                fn(this.Vendors);
         };
         
         this.preloadVendors = function(caller, fn) {
