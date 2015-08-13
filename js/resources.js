@@ -41,6 +41,16 @@ angular.module('magmanager')
         this.CopyVendor = function(id, fn) {
             if (!fn) { fn = function() {}; }
             
+            if (!id) {
+                var vNew = {
+                    id: '',
+                    name: '',
+                    products: []
+                }
+                fn(vNew);
+                return;
+            }
+            
             myself.GetVendor(id, function(v) {
                 var vEdit = Restangular.copy(v);
                 fn(vEdit);
@@ -84,6 +94,15 @@ angular.module('magmanager')
                 if (!result && this.CurrentVendor > -1) {
                     vendorList[this.CurrentVendor] = vendor;
                 }
+            });
+        };
+        
+        this.CreateVendor = function(vendor, fn) {
+            if (!fn) { fn = function() {}; }
+            
+            vendors.post(vendor).then(function(result) {
+                vendorList.push(result);
+                fn(result);
             });
         };
     }]);
