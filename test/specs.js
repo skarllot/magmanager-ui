@@ -21,33 +21,8 @@ describe('MagManager', function() {
             expect(vendorList.count()).toBeGreaterThan(0);
         });
         
-        it('products', function() {
-            vendorList
-                .get(0)
-                .element(by.css('.vendor-filter'))
-                .click();
-            
-            expect(
-                element.all(by.repeater('p in vendor.products')).count()
-            ).toBeGreaterThan(0);
-        });
-        
-        it('return from products', function() {
-            element(by.css('.container .row div h1 a')).click();
-            browser.getCurrentUrl().then(function(url) {
-                expect(url).toBe(addressVendor);
-            });
-            
-            expect(vendorList.count()).toBeGreaterThan(0);
-        });
-        
-        it('loading status after return from products', function() {
-            expect(
-                element(by.css('.vendors-loading')).isDisplayed()
-            ).toBeFalsy();
-        });
-        
         it('create', function() {
+            var newName = 'TEST VENDOR';
             vendorList.count().then(function(vendorCount) {
                 element(by.css('#vendor-new')).click();
 
@@ -57,11 +32,15 @@ describe('MagManager', function() {
                 expect(vName.isPresent()).toBe(true);
                 expect(btnSave.isPresent()).toBe(true);
 
-                vName.sendKeys('TEST VENDOR');
+                vName.sendKeys(newName);
                 btnSave.click();
 
                 expect(vendorList.count()).toEqual(vendorCount + 1);
             });
+            
+            expect(
+                vendorList.last().element(by.binding('name')).getText()
+            ).toEqual(newName);
         });
         
         it('edit', function() {
@@ -106,6 +85,32 @@ describe('MagManager', function() {
 
                 expect(vendorList.count()).toEqual(vendorCount - 1);
             });
+        });
+        
+        it('products', function() {
+            vendorList
+                .get(0)
+                .element(by.css('.vendor-filter'))
+                .click();
+            
+            expect(
+                element.all(by.repeater('p in vendor.products')).count()
+            ).toBeGreaterThan(0);
+        });
+        
+        it('return from products', function() {
+            element(by.css('.container .row div h1 a')).click();
+            browser.getCurrentUrl().then(function(url) {
+                expect(url).toBe(addressVendor);
+            });
+            
+            expect(vendorList.count()).toBeGreaterThan(0);
+        });
+        
+        it('loading status after return from products', function() {
+            expect(
+                element(by.css('.vendors-loading')).isDisplayed()
+            ).toBeFalsy();
         });
     });
 });
