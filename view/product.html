@@ -1,4 +1,13 @@
 <script src="js/product.js"></script>
+<style>
+    .modal-backdrop {
+        height: 100%;
+    }
+    .product-crud a {
+        color: black;
+        margin-right: .5em;
+    }
+</style>
 
 <div class="container" ng-controller="productController">
 <div class="row">
@@ -10,15 +19,25 @@
             <tr>
                 <th>Technology</th>
                 <th>Name</th>
+                <th class="col-md-1"><span class="sr-only">Edit or remove</span></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="p in vendor.products">
                 <td ng-bind="p.technology"></td>
                 <td ng-bind="p.name"></td>
+                <td class="product-crud" nowrap>
+                    <a href="#/vendor/{{ vendor.id }}?edit={{ p.id }}" class="product-edit">
+                        <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
+                    </a>
+                    <a href="#/vendor/{{ vendor.id }}?delete={{ p.id }}" class="product-delete">
+                        <span class="fa fa-trash-o" tooltip="Remove vendor"></span>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
+    <a href="#/vendor/{{ vendor.id }}?new=true" id="product-new" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New product</a>
 </div>
 </div>
 </div>

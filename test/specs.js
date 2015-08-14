@@ -1,5 +1,5 @@
 describe('MagManager', function() {
-    var address = process.env.API_ENDPOINT;
+    var address = process.env.WEB_ADDRESS;
     if (!address) {
         address = 'http://development.magmanager.divshot.io/';
     }
