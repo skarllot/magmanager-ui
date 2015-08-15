@@ -17,15 +17,20 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Technology</th>
                 <th>Name</th>
+                <th>Technology</th>
                 <th class="col-md-1"><span class="sr-only">Edit or remove</span></th>
             </tr>
         </thead>
         <tbody>
+            <tr class="vendors-loading" ng-hide="loaded">
+                <td><span class="fa fa-spinner" aria-hidden="true"></span> Loading...</td>
+                <td></td>
+                <td></td>
+            </tr>
             <tr ng-repeat="p in vendor.products">
-                <td ng-bind="p.technology"></td>
                 <td ng-bind="p.name"></td>
+                <td ng-bind="p.technology"></td>
                 <td class="product-crud" nowrap>
                     <a href="#/vendor/{{ vendor.id }}?edit={{ p.id }}" class="product-edit">
                         <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
