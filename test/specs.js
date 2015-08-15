@@ -88,6 +88,7 @@ describe('MagManager', function() {
         });
         
         it('products', function() {
+            // KEEP PRODUCT LISTING AFTER VENDOR DELETE TO AVOID BUG REGRESSION
             vendorList
                 .get(0)
                 .element(by.css('.vendor-filter'))

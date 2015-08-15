@@ -34,7 +34,7 @@ angular.module('magmanager')
         };
         
         this.GetVendor = function(id) {
-            if (currentVendor > -1) {
+            if (currentVendor > -1 && currentVendor < vendorList.length) {
                 var vendor = vendorList[currentVendor];
                 if (vendor.id == id) {
                     return $q(function(resolve, reject) {
@@ -66,29 +66,32 @@ angular.module('magmanager')
             }
         };
         
-        this.CompareVendor = function(v) {
-            return myself.GetVendor(v.id).then(function(v2) {
-                return angular.equals(v, v2);
-            });
+        this.CompareVendor = function(vendor) {
+            return myself.GetVendor(vendor.id)
+                .then(function(vendorGot) {
+                    return angular.equals(vendor, vendorGot);
+                });
         };
         
         this.UpdateVendor = function(vendor) {
-            return vendor.put()
-                .then(function() {
-                    return myself.CompareVendor(vendor);
-                })
-                .then(function(result) {
-                    if (!result && currentVendor > -1) {
-                        vendorList[currentVendor] = vendor;
+            return myself.CompareVendor(vendor)
+                .then(function(isEqual) {
+                    if (!isEqual) {
+                        return vendor.put().then(function() {
+                            vendorList[currentVendor] = vendor;
+                            return false;
+                        });
                     }
+                    
+                    return true;
                 });
         };
         
         this.CreateVendor = function(vendor) {
             return apiVendors.post(vendor)
-                .then(function(vendor) {
-                    vendorList.push(vendor);
-                    return vendor;
+                .then(function(vendorCreated) {
+                    vendorList.push(vendorCreated);
+                    return vendorCreated;
                 });
         };
         
@@ -98,7 +101,7 @@ angular.module('magmanager')
                     return getVendorIndex(vendor.id)
                         .then(function(index) {
                             vendorList.splice(index, 1);
-                            return(vendor.id);
+                            return vendor.id;
                         });
                 });
         };

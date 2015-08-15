@@ -115,16 +115,12 @@ angular.module('magmanager')
             });
         
         $scope.ok = function() {
-            vendorService.CompareVendor($scope.vendor)
-                .then(function(result) {
-                    if (!result) {
-                        vendorService.UpdateVendor($scope.vendor)
-                            .then(function() {
-                                $modalInstance.close();
-                            });
-                    } else {
+            vendorService.UpdateVendor($scope.vendor)
+                .then(function(isEqual) {
+                    if (!isEqual)
+                        $modalInstance.close();
+                    else
                         $modalInstance.dismiss('no changes');
-                    }
                 });
         };
         
