@@ -1,119 +1,105 @@
 angular.module('magmanager')
-    .service('vendorService', [ 'Restangular', function(Restangular) {
+    .service('vendorService', [ '$q', 'Restangular', function($q, Restangular) {
         Restangular.setBaseUrl(apiAddress);
-        var vendors = Restangular.all('vendor');
+        var apiVendors = Restangular.all('vendor');
+        
+        var qGetVendors;
         var fetchedData = false;
         var vendorList = [];
         var myself = this;
-        this.CurrentVendor = -1;
+        var currentVendor = -1;
         
-        this.GetVendors = function(fn, force) {
-            if (!fn) { fn = function() {}; }
-            force = force || false;
-            
-            if (force || !fetchedData)
-                vendors.getList().then(function(result) {
-                    vendorList = result;
-                    fetchedData = true;
-                    fn(result);
-                });
-            else
-                fn(vendorList);
-        };
-        
-        var getVendorById = function(id, caller) {
-            if (!fetchedData) {
-                myself.GetVendors(function() {
-                    getVendorById(id, caller);
-                });
-                return;
+        this.GetVendors = function(force) {
+            qGetVendors = qGetVendors || apiVendors.getList();
+            if (force) {
+                qGetVendors = apiVendors.getList();
             }
             
-            for (i=0; i < vendorList.length; ++i) {
-                if (vendorList[i].id == id) {
-                    caller(i);
-                    return;
+            return qGetVendors.then(function(vendors) {
+                vendorList = vendors;
+                return vendorList;
+            });
+        };
+        
+        var getVendorIndex = function(id) {
+            return myself.GetVendors().then(function(vendors) {
+                for (var i = 0; i < vendors.length; ++i) {
+                    if (vendors[i].id == id) {
+                        return i;
+                    }
+                }
+                
+                throw new Error('No vendor has Id ' + id);
+            });
+        };
+        
+        this.GetVendor = function(id) {
+            if (currentVendor > -1) {
+                var vendor = vendorList[currentVendor];
+                if (vendor.id == id) {
+                    return $q(function(resolve, reject) {
+                        resolve(vendor);
+                    });
                 }
             }
-            caller(-1);
+            
+            return getVendorIndex(id).then(function(index) {
+                currentVendor = index;
+                return vendorList[index];
+            });
         };
         
-        this.CopyVendor = function(id, fn) {
-            if (!fn) { fn = function() {}; }
-            
+        this.CopyVendor = function(id) {
             if (!id) {
                 var vNew = {
                     id: '',
                     name: '',
                     products: []
                 }
-                fn(vNew);
-                return;
-            }
-            
-            myself.GetVendor(id, function(v) {
-                var vEdit = Restangular.copy(v);
-                fn(vEdit);
-            });
-        };
-        
-        this.CompareVendor = function(v, fn) {
-            if (!fn) { fn = function() {}; }
-            
-            myself.GetVendor(v.id, function(v2) {
-                fn(angular.equals(v, v2));
-            });
-        };
-        
-        this.GetVendor = function(id, fn) {
-            if (!fn) { fn = function() {}; }
-            
-            if (fetchedData && this.CurrentVendor > -1) {
-                var current = vendorList[this.CurrentVendor];
-                if (current.id == id) {
-                    fn(current);
-                    return;
-                }
-            }
-            
-            getVendorById(id, function(index) {
-                this.CurrentVendor = index;
-                var v = null;
-                if (index > -1)
-                    v = vendorList[index];
-                
-                fn(v);
-            });
-        };
-        
-        this.UpdateVendor = function(vendor, fn) {
-            if (!fn) { fn = function() {}; }
-            
-            vendor.put().then(fn);
-            this.CompareVendor(vendor, function(result) {
-                if (!result && this.CurrentVendor > -1) {
-                    vendorList[this.CurrentVendor] = vendor;
-                }
-            });
-        };
-        
-        this.CreateVendor = function(vendor, fn) {
-            if (!fn) { fn = function() {}; }
-            
-            vendors.post(vendor).then(function(result) {
-                vendorList.push(result);
-                fn(result);
-            });
-        };
-        
-        this.DeleteVendor = function(vendor, fn) {
-            if (!fn) { fn = function() {}; }
-            
-            vendor.remove().then(function() {
-                getVendorById(vendor.id, function(index) {
-                    vendorList.splice(index, 1);
-                    fn(vendor.id);
+                return $q(function(resolve, reject) {
+                    resolve(vNew);
                 });
+            } else {
+                return myself.GetVendor(id).then(function(vendor) {
+                    return Restangular.copy(vendor);
+                });
+            }
+        };
+        
+        this.CompareVendor = function(v) {
+            return myself.GetVendor(v.id).then(function(v2) {
+                return angular.equals(v, v2);
             });
+        };
+        
+        this.UpdateVendor = function(vendor) {
+            return vendor.put()
+                .then(function() {
+                    return myself.CompareVendor(vendor);
+                })
+                .then(function(result) {
+                    if (!result && currentVendor > -1) {
+                        vendorList[currentVendor] = vendor;
+                    }
+                });
+        };
+        
+        this.CreateVendor = function(vendor) {
+            return apiVendors.post(vendor)
+                .then(function(vendor) {
+                    vendorList.push(vendor);
+                    return vendor;
+                });
+        };
+        
+        this.DeleteVendor = function(vendor) {
+            return vendor.remove()
+                .then(function() {
+                    return getVendorIndex(vendor.id)
+                        .then(function(index) {
+                            vendorList.splice(index, 1);
+                            return(vendor.id);
+                        });
+                });
         };
     }]);

@@ -6,10 +6,11 @@ angular.module('magmanager')
         $scope.refresh = function() {
             $scope.vendors = [];
             $scope.loaded = false;
-            vendorService.GetVendors(function(result) {
-                $scope.vendors = result;
-                $scope.loaded = true;
-            }, true);
+            vendorService.GetVendors(true)
+                .then(function(vendors) {
+                    $scope.vendors = vendors;
+                    $scope.loaded = true;
+                });
         };
         
         $scope.openEdit = function(vendorTarget) {
@@ -25,12 +26,13 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors(function(result) {
-                    $scope.vendors = result;
-                });
-                $location.search({});
+                vendorService.GetVendors()
+                    .then(function(vendors) {
+                        $scope.vendors = vendors;
+                    });
             }, function(msg) {
                 console.info(msg);
+            }).then(function() {
                 $location.search({});
             });
         };
@@ -42,12 +44,13 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors(function(result) {
-                    $scope.vendors = result;
-                });
-                $location.search({});
+                vendorService.GetVendors()
+                    .then(function(vendors) {
+                        $scope.vendors = vendors;
+                    });
             }, function(msg) {
                 console.info(msg);
+            }).then(function() {
                 $location.search({});
             });
         };
@@ -64,12 +67,13 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors(function(result) {
-                    $scope.vendors = result;
-                });
-                $location.search({});
+                vendorService.GetVendors()
+                    .then(function(vendors) {
+                        $scope.vendors = vendors;
+                    });
             }, function(msg) {
                 console.info(msg);
+            }).then(function() {
                 $location.search({});
             });
         };
@@ -93,10 +97,11 @@ angular.module('magmanager')
             $scope.openDelete();
         }
         
-        vendorService.GetVendors(function(result) {
-            $scope.vendors = result;
-            $scope.loaded = true;
-        });
+        vendorService.GetVendors()
+            .then(function(vendors) {
+                $scope.vendors = vendors;
+                $scope.loaded = true;
+            });
     }]);
 
 angular.module('magmanager')
@@ -104,19 +109,23 @@ angular.module('magmanager')
         $scope.vendor = {};
         $scope.confirm = false;
         
-        vendorService.CopyVendor(vendorId, function(v) {
-            $scope.vendor = v;
-        });
+        vendorService.CopyVendor(vendorId)
+            .then(function(vendor) {
+                $scope.vendor = vendor;
+            });
         
         $scope.ok = function() {
-            vendorService.CompareVendor($scope.vendor, function(result) {
-                if (!result) {
-                    vendorService.UpdateVendor($scope.vendor);
-                    $modalInstance.close();
-                } else {
-                    $modalInstance.dismiss('no changes');
-                }
-            });
+            vendorService.CompareVendor($scope.vendor)
+                .then(function(result) {
+                    if (!result) {
+                        vendorService.UpdateVendor($scope.vendor)
+                            .then(function() {
+                                $modalInstance.close();
+                            });
+                    } else {
+                        $modalInstance.dismiss('no changes');
+                    }
+                });
         };
         
         $scope.cancel = function() {
@@ -124,12 +133,13 @@ angular.module('magmanager')
         };
         
         $scope.safeCancel = function() {
-            vendorService.CompareVendor($scope.vendor, function(result) {
-                if (result)
-                    $scope.cancel();
-                else
-                    $scope.confirm = true;
-            });
+            vendorService.CompareVendor($scope.vendor)
+                .then(function(result) {
+                    if (result)
+                        $scope.cancel();
+                    else
+                        $scope.confirm = true;
+                });
         };
     }]);
 
@@ -139,10 +149,11 @@ angular.module('magmanager')
         $scope.vendorEmpty = {};
         $scope.confirm = false;
         
-        vendorService.CopyVendor(null, function(result) {
-            $scope.vendor = result;
-            angular.copy(result, $scope.vendorEmpty);
-        });
+        vendorService.CopyVendor(null)
+            .then(function(vendor) {
+                $scope.vendor = vendor;
+                angular.copy(vendor, $scope.vendorEmpty);
+            });
         
         $scope.ok = function() {
             if (angular.equals($scope.vendor, $scope.vendorEmpty)) {
@@ -150,9 +161,10 @@ angular.module('magmanager')
                 return;
             }
             
-            vendorService.CreateVendor($scope.vendor, function(result) {
-                $modalInstance.close();
-            });
+            vendorService.CreateVendor($scope.vendor)
+                .then(function(result) {
+                    $modalInstance.close();
+                });
         };
         
         $scope.cancel = function() {
@@ -165,14 +177,16 @@ angular.module('magmanager')
         $scope.vendor = {};
         $scope.confirm = false;
         
-        vendorService.GetVendor(vendorId, function(v) {
-            $scope.vendor = v;
-        });
+        vendorService.GetVendor(vendorId)
+            .then(function(vendor) {
+                $scope.vendor = vendor;
+            });
         
         $scope.ok = function() {
-            vendorService.DeleteVendor($scope.vendor, function() {
-                $modalInstance.close();
-            });
+            vendorService.DeleteVendor($scope.vendor)
+                .then(function() {
+                    $modalInstance.close();
+                });
         };
         
         $scope.cancel = function() {
