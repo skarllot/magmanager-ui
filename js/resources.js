@@ -29,7 +29,7 @@ angular.module('magmanager')
                     }
                 }
                 
-                throw new Error('No vendor has Id ' + id);
+                return $q.reject(new Error('Invalid vendor Id \'' + id + '\''));
             });
         };
         

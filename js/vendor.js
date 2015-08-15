@@ -79,12 +79,19 @@ angular.module('magmanager')
         };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
+            if (Object.keys($routeParams).length == 0)
+                return;
+            
             if ($routeParams.edit)
                 $scope.openEdit();
-            if ($routeParams.new)
+            else if ($routeParams.new)
                 $scope.openCreate();
-            if ($routeParams.delete)
+            else if ($routeParams.delete)
                 $scope.openDelete();
+            else{
+                console.warn('Unexpected route change');
+                $location.search({});
+            }
         });
         
         if ($routeParams.edit) {
@@ -112,6 +119,9 @@ angular.module('magmanager')
         vendorService.CopyVendor(vendorId)
             .then(function(vendor) {
                 $scope.vendor = vendor;
+            })
+            .catch(function(msg) {
+                $modalInstance.dismiss(msg.message);
             });
         
         $scope.ok = function() {
@@ -137,6 +147,10 @@ angular.module('magmanager')
                         $scope.confirm = true;
                 });
         };
+        
+        $scope.$on('$routeUpdate', function(scope, next, current) {
+            $modalInstance.dismiss('unexpected route change');
+        });
     }]);
 
 angular.module('magmanager')
@@ -149,6 +163,9 @@ angular.module('magmanager')
             .then(function(vendor) {
                 $scope.vendor = vendor;
                 angular.copy(vendor, $scope.vendorEmpty);
+            })
+            .catch(function(msg) {
+                $modalInstance.dismiss(msg.message);
             });
         
         $scope.ok = function() {
@@ -166,6 +183,10 @@ angular.module('magmanager')
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+        
+        $scope.$on('$routeUpdate', function(scope, next, current) {
+            $modalInstance.dismiss('unexpected route change');
+        });
     }]);
 
 angular.module('magmanager')
@@ -176,6 +197,9 @@ angular.module('magmanager')
         vendorService.GetVendor(vendorId)
             .then(function(vendor) {
                 $scope.vendor = vendor;
+            })
+            .catch(function(msg) {
+                $modalInstance.dismiss(msg.message);
             });
         
         $scope.ok = function() {
@@ -188,4 +212,8 @@ angular.module('magmanager')
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+        
+        $scope.$on('$routeUpdate', function(scope, next, current) {
+            $modalInstance.dismiss('unexpected route change');
+        });
     }]);

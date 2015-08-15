@@ -8,5 +8,13 @@ angular.module('magmanager')
                 $rootScope.title = vendor.name;
                 $scope.vendor = vendor;
                 $scope.loaded = true;
+            })
+            .catch(function(msg) {
+                $rootScope.title = 'Invalid';
+                $scope.vendor = {
+                    name: 'Invalid vendor Id',
+                    products: []
+                };
+                $scope.loaded = true;
             });
     }]);
