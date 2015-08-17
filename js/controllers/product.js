@@ -1,4 +1,6 @@
 !function() {
+    'use strict';
+    
     ngLazy.controller('productController', [ '$rootScope', '$scope', '$routeParams', 'vendorService', function($rootScope, $scope, $routeParams, vendorService) {
         $scope.vendor = {};
         $scope.loaded = false;

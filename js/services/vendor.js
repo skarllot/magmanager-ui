@@ -1,4 +1,6 @@
 !function() {
+    'use strict';
+    
     ngLazy.service('vendorService', [ '$q', 'Restangular', function($q, Restangular) {
         Restangular.setBaseUrl(app.apiAddress);
         var apiVendors = Restangular.all('vendor');

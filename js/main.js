@@ -1,9 +1,6 @@
-//jQuery.ajaxSetup({ cache: true });
-//jQuery.ajaxPrefilter(function(options, originalOptions, jqXHR) {
-//    options.async = true;
-//});
-
 !function(root) {
+    'use strict';
+    
     var ng = angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
 
     ng.config([ '$routeProvider', '$controllerProvider', '$provide', function($routeProvider, $controllerProvider, $provide) {

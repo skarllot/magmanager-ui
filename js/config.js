@@ -1,4 +1,6 @@
 !function(root) {
+    'use strict';
+    
     root.app = {
         apiAddress: "https://magmanager.herokuapp.com/",
         pickFromObj: function(obj1, obj2) {

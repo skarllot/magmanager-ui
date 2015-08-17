@@ -1,4 +1,5 @@
 !function() {
+    'use strict';
     var ng = angular.module('magmanager');
     
     ng.factory('lazyService', [ '$http', function($http) {
