@@ -1,11 +1,13 @@
-<script src="js/vendor.js"></script>
 <style>
     .modal-backdrop {
-        height: 100%;
+        height: 200%;
     }
     .vendor-crud a {
         color: black;
         margin-right: .5em;
+    }
+    .confirm-yes {
+        margin-right: 1em;
     }
 </style>
 
@@ -62,7 +64,7 @@
         <div class="modal-body">
             <div ng-show="confirm" class="alert alert-warning" role="alert">
                 <button type="button" class="close" aria-label="Close" ng-click="confirm = false"><span aria-hidden="true">&times;</span></button>
-                All changes will be lost. <a href="" class="alert-link" ng-click="cancel()">Discard</a>
+                All changes will be lost. Are you sure?<br><a href="" class="alert-link confirm-yes" ng-click="cancel()">Yes</a><a href="" class="alert-link confirm-no" ng-click="confirm = false">No</a>
             </div>
             <div class="form-horizontal">
                 <div class="form-group">

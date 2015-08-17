@@ -1,5 +1,7 @@
-angular.module('magmanager')
-    .controller('navbarController', [ '$scope', '$location', function($scope, $location) {
+!function() {
+    var ng = angular.module('magmanager');
+    
+    ng.controller('navbarController', [ '$scope', '$location', function($scope, $location) {
         $scope.isView = function(path, isPrefix) {
             isPrefix = isPrefix || false;
             if (!isPrefix) {
@@ -15,3 +17,4 @@ angular.module('magmanager')
             }
         };
     }]);
+}();

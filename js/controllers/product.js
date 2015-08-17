@@ -1,5 +1,5 @@
-angular.module('magmanager')
-    .registerCtrl('productController', [ '$rootScope', '$scope', '$routeParams', 'vendorService', function($rootScope, $scope, $routeParams, vendorService) {
+!function() {
+    ngLazy.controller('productController', [ '$rootScope', '$scope', '$routeParams', 'vendorService', function($rootScope, $scope, $routeParams, vendorService) {
         $scope.vendor = {};
         $scope.loaded = false;
         
@@ -18,3 +18,4 @@ angular.module('magmanager')
                 $scope.loaded = true;
             });
     }]);
+}();

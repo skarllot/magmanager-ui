@@ -1,10 +1,20 @@
 //jQuery.ajaxSetup({ cache: true });
-angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
+//jQuery.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+//    options.async = true;
+//});
 
-angular.module('magmanager')
-    .config([ '$routeProvider', '$controllerProvider', function($routeProvider, $controllerProvider) {
+!function(root) {
+    var ng = angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
+
+    ng.config([ '$routeProvider', '$controllerProvider', '$provide', function($routeProvider, $controllerProvider, $provide) {
         // Lazy loading
-        angular.module('magmanager').registerCtrl = $controllerProvider.register;
+        root.ngLazy = {
+            controller: $controllerProvider.register,
+            //directive: $compileProvider.directive,
+            //filter: $filterProvider.register,
+            factory: $provide.factory,
+            service: $provide.service
+        }
 
         $routeProvider
         .when('/', {
@@ -13,12 +23,28 @@ angular.module('magmanager')
         })
         .when('/vendor/:id', {
             title: 'Products',
-            templateUrl: 'view/product.html'
+            templateUrl: 'view/product.html',
+            resolve: {
+                svc: [ 'lazyService', function(lazyService) {
+                    return lazyService.loadScript('services/vendor');
+                }],
+                ctrl: [ 'lazyService', function(lazyService) {
+                    return lazyService.loadScript('controllers/product');
+                }]
+            }
         })
         .when('/vendor', {
             title: 'Vendors',
             templateUrl: 'view/vendor.html',
-            reloadOnSearch: false
+            reloadOnSearch: false,
+            resolve: {
+                svc: [ 'lazyService', function(lazyService) {
+                    return lazyService.loadScript('services/vendor');
+                }],
+                ctrl: [ 'lazyService', function(lazyService) {
+                    return lazyService.loadScript('controllers/vendor');
+                }]
+            }
         })
         .otherwise({
             redirectTo: '/'
@@ -31,3 +57,4 @@ angular.module('magmanager')
             }
         });
     }]);
+}(window);

@@ -1,5 +1,5 @@
-angular.module('magmanager')
-    .registerCtrl('vendorController', [ '$scope', '$routeParams', '$location', '$modal', 'vendorService', function($scope, $routeParams, $location, $modal, vendorService) {
+!function() {
+    ngLazy.controller('vendorController', [ '$scope', '$routeParams', '$location', '$modal', 'vendorService', function($scope, $routeParams, $location, $modal, vendorService) {
         $scope.loaded = false;
         $scope.vendors = [];
         
@@ -26,10 +26,6 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors()
-                    .then(function(vendors) {
-                        $scope.vendors = vendors;
-                    });
             }, function(msg) {
                 console.info(msg);
             }).then(function() {
@@ -44,10 +40,6 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors()
-                    .then(function(vendors) {
-                        $scope.vendors = vendors;
-                    });
             }, function(msg) {
                 console.info(msg);
             }).then(function() {
@@ -67,10 +59,6 @@ angular.module('magmanager')
             });
             
             modalInstance.result.then(function(selectedItem) {
-                vendorService.GetVendors()
-                    .then(function(vendors) {
-                        $scope.vendors = vendors;
-                    });
             }, function(msg) {
                 console.info(msg);
             }).then(function() {
@@ -79,7 +67,7 @@ angular.module('magmanager')
         };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
-            if (Object.keys($routeParams).length == 0)
+            if (_.keys($routeParams).length == 0)
                 return;
             
             if ($routeParams.edit)
@@ -88,7 +76,7 @@ angular.module('magmanager')
                 $scope.openCreate();
             else if ($routeParams.delete)
                 $scope.openDelete();
-            else{
+            else {
                 console.warn('Unexpected route change');
                 $location.search({});
             }
@@ -111,8 +99,7 @@ angular.module('magmanager')
             });
     }]);
 
-angular.module('magmanager')
-    .registerCtrl('vendorEditController', [ '$scope', '$modalInstance', 'vendorService', 'vendorId', function($scope, $modalInstance, vendorService, vendorId) {
+    ngLazy.controller('vendorEditController', [ '$scope', '$modalInstance', 'vendorService', 'vendorId', function($scope, $modalInstance, vendorService, vendorId) {
         $scope.vendor = {};
         $scope.confirm = false;
         
@@ -126,22 +113,21 @@ angular.module('magmanager')
         
         $scope.ok = function() {
             vendorService.UpdateVendor($scope.vendor)
-                .then(function(isEqual) {
-                    if (!isEqual)
-                        $modalInstance.close();
-                    else
-                        $modalInstance.dismiss('no changes');
+                .then(function() {
+                    $modalInstance.close();
+                }, function(e) {
+                    $modalInstance.dismiss(e.message);
                 });
         };
         
         $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.dismiss('User cancel');
         };
         
         $scope.safeCancel = function() {
             vendorService.CompareVendor($scope.vendor)
-                .then(function(result) {
-                    if (result)
+                .then(function(isEqual) {
+                    if (isEqual)
                         $scope.cancel();
                     else
                         $scope.confirm = true;
@@ -149,28 +135,17 @@ angular.module('magmanager')
         };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
-            $modalInstance.dismiss('unexpected route change');
+            $modalInstance.dismiss('Unexpected route change');
         });
     }]);
 
-angular.module('magmanager')
-    .registerCtrl('vendorCreateController', [ '$scope', '$modalInstance', 'vendorService', function($scope, $modalInstance, vendorService) {
-        $scope.vendor = {};
-        $scope.vendorEmpty = {};
+    ngLazy.controller('vendorCreateController', [ '$scope', '$modalInstance', 'vendorService', function($scope, $modalInstance, vendorService) {
+        $scope.vendor = app.models.getVendor();
         $scope.confirm = false;
         
-        vendorService.CopyVendor(null)
-            .then(function(vendor) {
-                $scope.vendor = vendor;
-                angular.copy(vendor, $scope.vendorEmpty);
-            })
-            .catch(function(msg) {
-                $modalInstance.dismiss(msg.message);
-            });
-        
         $scope.ok = function() {
-            if (angular.equals($scope.vendor, $scope.vendorEmpty)) {
-                $modalInstance.dismiss('no changes');
+            if (_.isEqual($scope.vendor, app.models.getVendor())) {
+                $modalInstance.dismiss('The vendor was not changed');
                 return;
             }
             
@@ -181,16 +156,15 @@ angular.module('magmanager')
         };
         
         $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.dismiss('User cancel');
         };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
-            $modalInstance.dismiss('unexpected route change');
+            $modalInstance.dismiss('Unexpected route change');
         });
     }]);
 
-angular.module('magmanager')
-    .registerCtrl('vendorDeleteController', [ '$scope', '$modalInstance', 'vendorService', 'vendorId', function($scope, $modalInstance, vendorService, vendorId) {
+    ngLazy.controller('vendorDeleteController', [ '$scope', '$modalInstance', 'vendorService', 'vendorId', function($scope, $modalInstance, vendorService, vendorId) {
         $scope.vendor = {};
         $scope.confirm = false;
         
@@ -210,10 +184,11 @@ angular.module('magmanager')
         };
         
         $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $modalInstance.dismiss('User cancel');
         };
         
         $scope.$on('$routeUpdate', function(scope, next, current) {
-            $modalInstance.dismiss('unexpected route change');
+            $modalInstance.dismiss('Unexpected route change');
         });
     }]);
+}();
