@@ -1,18 +1,8 @@
-!function(root) {
+!function(global) {
     'use strict';
-    
     var ng = angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
 
-    ng.config([ '$routeProvider', '$controllerProvider', '$provide', function($routeProvider, $controllerProvider, $provide) {
-        // Lazy loading
-        root.ngLazy = {
-            controller: $controllerProvider.register,
-            //directive: $compileProvider.directive,
-            //filter: $filterProvider.register,
-            factory: $provide.factory,
-            service: $provide.service
-        }
-
+    ng.config([ '$routeProvider', function($routeProvider) {
         $routeProvider
         .when('/', {
             title: 'Home',
@@ -22,11 +12,10 @@
             title: 'Products',
             templateUrl: 'view/product.html',
             resolve: {
-                svc: [ 'lazyService', function(lazyService) {
-                    return lazyService.loadScript('services/vendor');
-                }],
-                ctrl: [ 'lazyService', function(lazyService) {
-                    return lazyService.loadScript('controllers/product');
+                deps : [ 'ngLazy', function(ngLazy) {
+                    return ngLazy.loadScript(
+                        'controllers/product',
+                        [ 'services/vendor' ]);
                 }]
             }
         })
@@ -35,11 +24,10 @@
             templateUrl: 'view/vendor.html',
             reloadOnSearch: false,
             resolve: {
-                svc: [ 'lazyService', function(lazyService) {
-                    return lazyService.loadScript('services/vendor');
-                }],
-                ctrl: [ 'lazyService', function(lazyService) {
-                    return lazyService.loadScript('controllers/vendor');
+                deps: [ 'ngLazy', function(ngLazy) {
+                    return ngLazy.loadScript(
+                        'controllers/vendor',
+                        [ 'services/vendor' ]);
                 }]
             }
         })
