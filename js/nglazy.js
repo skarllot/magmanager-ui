@@ -46,7 +46,7 @@
             // Eg:
             // ...
             // $routeProvider
-            //    .when('/vendor/:id', {
+            //    .when('/product/:id', {
             //        templateUrl: 'view/product.html',
             //        resolve: {
             //            deps : [ 'ngLazy', function(ngLazy) {
