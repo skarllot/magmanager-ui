@@ -6,28 +6,28 @@
         $routeProvider
         .when('/', {
             title: 'Home',
-            templateUrl: 'view/home.html'
+            templateUrl: 'home/view.html'
         })
         .when('/vendor/:id', {
             title: 'Products',
-            templateUrl: 'view/product.html',
+            templateUrl: 'product/view.html',
             resolve: {
                 deps : [ 'ngLazy', function(ngLazy) {
                     return ngLazy.loadScript(
-                        'controllers/product',
-                        [ 'services/vendor' ]);
+                        'product/controller',
+                        [ 'vendor/service' ]);
                 }]
             }
         })
         .when('/vendor', {
             title: 'Vendors',
-            templateUrl: 'view/vendor.html',
+            templateUrl: 'vendor/view.html',
             reloadOnSearch: false,
             resolve: {
                 deps: [ 'ngLazy', function(ngLazy) {
                     return ngLazy.loadScript(
-                        'controllers/vendor',
-                        [ 'services/vendor' ]);
+                        'vendor/controller',
+                        [ 'vendor/service' ]);
                 }]
             }
         })

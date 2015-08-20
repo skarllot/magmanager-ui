@@ -20,7 +20,7 @@
     
     ng.factory('ngLazy', [ '$q', '$http', function($q, $http) {
         var delim = '${ name }';
-        var jsPath = 'js/${ name }.js';
+        var jsPath = '${ name }.js';
         var promisesCache = {};
         
         // getPromise returns cached promise, or creates a new one
@@ -47,12 +47,12 @@
             // ...
             // $routeProvider
             //    .when('/product/:id', {
-            //        templateUrl: 'view/product.html',
+            //        templateUrl: 'product/view.html',
             //        resolve: {
             //            deps : [ 'ngLazy', function(ngLazy) {
             //                return ngLazy.loadScript(
-            //                    'controllers/product',
-            //                    [ 'services/product' ]);
+            //                    'product/controller',
+            //                    [ 'product/service' ]);
             //            }]
             //        }
             // })
