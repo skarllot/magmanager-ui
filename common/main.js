@@ -10,11 +10,11 @@
         })
         .when('/vendor/:id', {
             title: 'Products',
-            templateUrl: 'product/view.html',
+            templateUrl: 'vendor/product/view.html',
             resolve: {
                 deps : [ 'ngLazy', function(ngLazy) {
                     return ngLazy.loadScript(
-                        'product/controller',
+                        'vendor/product/controller',
                         [ 'vendor/service' ]);
                 }]
             }
