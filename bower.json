@@ -1,0 +1,34 @@
+{
+  "name": "MagManager Web Site",
+  "version": "0.1",
+  "homepage": "https://github.com/skarllot/magmanager-ui",
+  "authors": [
+    "Fabrício Godoy <skarllot@gmail.com>"
+  ],
+  "description": "Program for managing tape storing and carrying control",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "GPL-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "deps",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.css": "latest",
+    "bootstrap": "3.3.4",
+    "font-awesome": "~4",
+    "lodash": "latest",
+    "angular": "~1.4",
+    "angular-route": "~1.4",
+    "angular-bootstrap": "~0.13",
+    "restangular": "~1.5",
+    "html5shiv": "latest",
+    "respond": "latest"
+  }
+}
