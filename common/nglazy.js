@@ -75,11 +75,15 @@
                 if (deps) {
                     // Stacks each promise in sequence to resolve before main js
                     deps.forEach(function(d) {
-                        promise = promise.then(getPromise(d));
+                        promise = promise.then(function() {
+                            return getPromise(d)
+                        });
                     });
                 }
                 // Then last stack specified js
-                promise = promise.then(getPromise(name));
+                promise = promise.then(function() {
+                    return getPromise(name);
+                });
                 return promise;
             },
             
