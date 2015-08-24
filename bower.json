@@ -28,6 +28,10 @@
     "angular-route": "~1.4",
     "angular-bootstrap": "~0.13",
     "restangular": "~1.5",
+    "requirejs": "latest",
+    "requirejs-domready": "latest",
+    
+    "html5shiv": "// Deps for IE8 support of HTML5 elements and media queries",
     "html5shiv": "latest",
     "respond": "latest"
   }

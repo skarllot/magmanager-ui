@@ -1,45 +1,30 @@
-!function(global) {
-    'use strict';
-    var ng = angular.module('magmanager', [ 'ngRoute', 'restangular', 'ui.bootstrap' ]);
-
-    ng.config([ '$routeProvider', function($routeProvider) {
-        $routeProvider
-        .when('/', {
-            title: 'Home',
-            templateUrl: 'home/view.html'
-        })
-        .when('/vendor/:id', {
-            title: 'Products',
-            templateUrl: 'vendor/product/view.html',
-            resolve: {
-                deps : [ 'ngLazy', function(ngLazy) {
-                    return ngLazy.loadScript(
-                        'vendor/product/controller',
-                        [ 'vendor/service' ]);
-                }]
-            }
-        })
-        .when('/vendor', {
-            title: 'Vendors',
-            templateUrl: 'vendor/view.html',
-            reloadOnSearch: false,
-            resolve: {
-                deps: [ 'ngLazy', function(ngLazy) {
-                    return ngLazy.loadScript(
-                        'vendor/controller',
-                        [ 'vendor/service' ]);
-                }]
-            }
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
-    }])
-    .run(['$location', '$rootScope', function($location, $rootScope) {
-        $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-            if (current.$$route && current.$$route.title) {
-                $rootScope.title = current.$$route.title;
-            }
-        });
-    }]);
-}(window);
+require.config({
+    paths: {
+        'domReady': '../deps/requirejs-domready/domReady',
+        'angular': '../deps/angular/angular.min',
+        'angular-bootstrap': '../deps/angular-bootstrap/ui-bootstrap-tpls.min',
+        'angular-route': '../deps/angular-route/angular-route.min',
+        'lodash': '../deps/lodash/lodash.min',
+        'restangular': '../deps/restangular/dist/restangular.min',
+        'vendor': '../vendor',
+        'product': '../vendor/product'
+    },
+    shim: {
+        'angular': {
+            exports: 'angular'
+        },
+        'angular-bootstrap': {
+            deps: [ 'angular' ]
+        },
+        'angular-route' : {
+            deps: [ 'angular' ]
+        },
+        'lodash': {
+            exports: '_'
+        },
+        'restangular': {
+            deps: [ 'angular', 'lodash' ]
+        }
+    },
+    deps: ['./bootstrap']
+});

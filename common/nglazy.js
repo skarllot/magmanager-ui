@@ -1,45 +1,24 @@
-// Deps: lodash (or Underscore.js)
-!function(global, appname) {
+define(['require', 'angular'], function(require, ng) {
     'use strict';
-    var ng = angular.module(appname);
     
-    ng.config([ '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', function($controllerProvider, $compileProvider, $filterProvider, $provide) {
-        // Register 'ngLazy' globally to allow registering of components after bootstrap.
+    var mod = angular.module('ngLazy', []);
+    var ngLazy = {};
+    
+    mod.config([ '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', function($controllerProvider, $compileProvider, $filterProvider, $provide) {
+        // Keep references to providers on module object to allow registering of
+        // components after bootstrap.
         // Eg:
         // ngLazy.controller('myController', function($scope) {
         // ...
         // });
-        global.ngLazy = {
-            controller: $controllerProvider.register,
-            directive: $compileProvider.directive,
-            filter: $filterProvider.register,
-            factory: $provide.factory,
-            service: $provide.service
-        }
+        ngLazy.controller = $controllerProvider.register;
+        ngLazy.directive = $compileProvider.directive;
+        ngLazy.filter = $filterProvider.register;
+        ngLazy.factory = $provide.factory;
+        ngLazy.service = $provide.service;
     }]);
     
-    ng.factory('ngLazy', [ '$q', '$http', function($q, $http) {
-        var delim = '${ name }';
-        var jsPath = '${ name }.js';
-        var promisesCache = {};
-        
-        // getPromise returns cached promise, or creates a new one
-        // whether is not cached yet.
-        function getPromise(name) {
-            var promise = promisesCache[name];
-            if (promise) {
-                return promise;
-            }
-            
-            var url = jsPath.replace(delim, name);
-            promise = $http.get(url).then(function(result) {
-                eval(result.data);
-                console.info('Loaded: ' + url);
-            });
-            
-            promisesCache[name] = promise;
-            return promise;
-        }
+    mod.factory('ngLazy', [ '$q', function($q) {
         
         return {
             // loadScript returns a promise of javascript file load and eval.
@@ -50,58 +29,22 @@
             //        templateUrl: 'product/view.html',
             //        resolve: {
             //            deps : [ 'ngLazy', function(ngLazy) {
-            //                return ngLazy.loadScript(
-            //                    'product/controller',
-            //                    [ 'product/service' ]);
+            //                return ngLazy.loadScript('product/controller');
             //            }]
             //        }
             // })
             // ...
-            loadScript: function(name, deps) {
-                // Relies on lodash or Underscore.js
-                if (deps) {
-                    if (!_.isString(deps)) {
-                        deps = [ deps ];
-                    } else if (!_.isArray(deps)) {
-                        return $q.defer(new Error('Dependencies must be specified as array'));
-                    }
-                }
-                
-                // Base promise to create a sequence
+            loadScript: function(name) { 
                 var defer = $q.defer();
-                defer.resolve(name);
                 
-                var promise = defer.promise;
-                if (deps) {
-                    // Stacks each promise in sequence to resolve before main js
-                    deps.forEach(function(d) {
-                        promise = promise.then(function() {
-                            return getPromise(d)
-                        });
-                    });
-                }
-                // Then last stack specified js
-                promise = promise.then(function() {
-                    return getPromise(name);
+                require([ name ], function() {
+                    defer.resolve(name);
                 });
-                return promise;
-            },
-            
-            // setJSPath changes default URL path for javascript files.
-            setJSPath: function(path) {
-                // Relies on lodash or Underscore.js
-                if (!path) {
-                    throw new Error('To set javascript files path you must define a path');
-                } else if (!_.isString(path)) {
-                    throw new Error('The javascript files path must be a String');
-                }
                 
-                if (path.indexOf(delim) < 0) {
-                    throw new Error('The javascripts files path must have \'${ name }\' delimiter');
-                }
-                
-                jsPath = path;
+                return defer.promise;
             }
         }
     }]);
-}(window, 'magmanager');
+    
+    return ngLazy;
+});

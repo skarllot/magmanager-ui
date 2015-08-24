@@ -3,6 +3,7 @@ describe('MagManager', function() {
     if (!address) {
         address = 'http://development.magmanager.divshot.io/';
     }
+    var timeoutMs = 500;
     
     describe('vendor', function() {
         var addressVendor = address + '#/vendor';
@@ -18,6 +19,18 @@ describe('MagManager', function() {
         });
 
         it('listing', function() {
+            /* FAILS IF UNCOMMENTED
+            browser.wait(element(by.css('.vendors-loading')).isPresent);
+            browser.wait(function() {
+                var defer = protractor.promise.defer();
+                element(by.css('.vendors-loading')).isDisplayed()
+                    .then(function(isDisplayed) {
+                        defer.fulfill(!isDisplayed);
+                    });
+                return defer.promise;
+            }, timeoutMs);*/
+            browser.sleep(timeoutMs);
+            
             expect(vendorList.count()).toBeGreaterThan(0);
         });
         
@@ -93,6 +106,18 @@ describe('MagManager', function() {
                 .get(0)
                 .element(by.css('.vendor-filter'))
                 .click();
+            
+            /* FAILS IF UNCOMMENTED
+            browser.wait(element(by.css('.products-loading')).isPresent);
+            browser.wait(function() {
+                var defer = protractor.promise.defer();
+                element(by.css('.products-loading')).isDisplayed()
+                    .then(function(isDisplayed) {
+                        defer.fulfill(!isDisplayed);
+                    });
+                return defer.promise;
+            }, timeoutMs);*/
+            browser.sleep(timeoutMs);
             
             expect(
                 element.all(by.repeater('p in vendor.products')).count()

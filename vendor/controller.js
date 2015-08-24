@@ -1,4 +1,4 @@
-!function() {
+define(['nglazy', 'config', './service'], function(ngLazy, config) {
     'use strict';
     
     ngLazy.controller('vendorController', [ '$scope', '$routeParams', '$location', '$modal', 'vendorService', function($scope, $routeParams, $location, $modal, vendorService) {
@@ -142,11 +142,11 @@
     }]);
 
     ngLazy.controller('vendorCreateController', [ '$scope', '$modalInstance', 'vendorService', function($scope, $modalInstance, vendorService) {
-        $scope.vendor = app.models.getVendor();
+        $scope.vendor = config.models.getVendor();
         $scope.confirm = false;
         
         $scope.ok = function() {
-            if (_.isEqual($scope.vendor, app.models.getVendor())) {
+            if (_.isEqual($scope.vendor, config.models.getVendor())) {
                 $modalInstance.dismiss('The vendor was not changed');
                 return;
             }
@@ -193,4 +193,4 @@
             $modalInstance.dismiss('Unexpected route change');
         });
     }]);
-}();
+});

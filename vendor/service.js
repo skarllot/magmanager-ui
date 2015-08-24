@@ -1,8 +1,8 @@
-!function() {
+define(['nglazy', 'config'], function(ngLazy, config) {
     'use strict';
     
     ngLazy.service('vendorService', [ '$q', 'Restangular', function($q, Restangular) {
-        Restangular.setBaseUrl(app.apiAddress);
+        Restangular.setBaseUrl(config.apiAddress);
         var apiVendors = Restangular.all('vendor');
         
         var qGetVendors;
@@ -64,7 +64,7 @@
         this.CompareVendor = function(vendor) {
             return self.GetVendor(vendor.id)
                 .then(function(vendorGot) {
-                    return app.models.vendorEquals(vendor, vendorGot);
+                    return config.models.vendorEquals(vendor, vendorGot);
                 });
         };
         
@@ -102,4 +102,4 @@
                 });
         };
     }]);
-}();
+});

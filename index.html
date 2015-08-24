@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="magmanager">
+<html>
 <head>
     <title ng-bind="title + ' &middot; MagManager'">MagManager</title>
     
@@ -12,22 +12,6 @@
     <link rel="stylesheet" href="deps/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="deps/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="common/main.css">
-    
-    <script src="deps/lodash/lodash.min.js"></script>
-    <script src="deps/angular/angular.min.js"></script>
-    <script src="deps/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="deps/angular-route/angular-route.min.js"></script>
-    <script src="deps/restangular/dist/restangular.min.js"></script>
-    <script src="common/config.js"></script>
-    <script src="common/main.js"></script>
-    <script src="common/nglazy.js"></script>
-    <script src="common/navbar.js"></script>
-    
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="deps/html5shiv/dist/html5shiv.min.js"></script>
-        <script src="deps/respond/dest/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navbarController">
@@ -55,5 +39,12 @@
     </nav>
       
     <div ng-view=""></div>
+    
+    <script src="deps/requirejs/require.js" data-main="common/main.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="deps/html5shiv/dist/html5shiv.min.js"></script>
+        <script src="deps/respond/dest/respond.min.js"></script>
+    <![endif]-->
 </body>
 </html>
