@@ -1,7 +1,7 @@
 define(['require', 'angular'], function(require, ng) {
     'use strict';
     
-    var mod = angular.module('ngLazy', []);
+    var mod = ng.module('ngLazy', []);
     var ngLazy = {};
     
     mod.config([ '$controllerProvider', '$compileProvider', '$filterProvider', '$provide', function($controllerProvider, $compileProvider, $filterProvider, $provide) {

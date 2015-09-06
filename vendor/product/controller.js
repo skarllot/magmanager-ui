@@ -1,4 +1,4 @@
-define([ 'nglazy', '../service' ], function(ngLazy) {
+define([ 'nglazy', 'vendor/service' ], function(ngLazy) {
     'use strict';
     
     ngLazy.controller('productController', [ '$rootScope', '$scope', '$routeParams', 'vendorService', function($rootScope, $scope, $routeParams, vendorService) {

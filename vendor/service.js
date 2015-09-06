@@ -6,7 +6,6 @@ define(['nglazy', 'config'], function(ngLazy, config) {
         var apiVendors = Restangular.all('vendor');
         
         var qGetVendors;
-        var fetchedData = false;
         var vendorList = [];
         var self = this;
         var currentVendor = -1;
@@ -24,15 +23,17 @@ define(['nglazy', 'config'], function(ngLazy, config) {
         }
         
         this.GetVendors = function(force) {
-            qGetVendors = qGetVendors || apiVendors.getList();
             if (force) {
                 qGetVendors = apiVendors.getList();
             }
             
-            return qGetVendors.then(function(vendors) {
+            function updateVendors(vendors) {
                 vendorList = vendors;
                 return vendorList;
-            });
+            }
+            
+            qGetVendors = qGetVendors || apiVendors.getList().then(updateVendors);
+            return qGetVendors;
         };
         
         this.GetVendor = function(id) {
