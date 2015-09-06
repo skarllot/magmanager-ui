@@ -1,11 +1,18 @@
-define([ 'nglazy', 'vendor/service' ], function(ngLazy) {
+define([
+    './module'
+], function(mod) {
     'use strict';
     
-    ngLazy.controller('productController', [ '$rootScope', '$scope', '$routeParams', 'vendorService', function($rootScope, $scope, $routeParams, vendorService) {
-        $scope.vendor = {};
-        $scope.loaded = false;
-        
-        vendorService.GetVendor($routeParams.id)
+    mod.controller('productController', [
+        '$rootScope',
+        '$scope',
+        '$routeParams',
+        'vendorService',
+        function($rootScope, $scope, $routeParams, vendorService) {
+            $scope.vendor = {};
+            $scope.loaded = false;
+            
+            vendorService.GetVendor($routeParams.id)
             .then(function(vendor) {
                 $rootScope.title = vendor.name;
                 $scope.vendor = vendor;
@@ -19,5 +26,5 @@ define([ 'nglazy', 'vendor/service' ], function(ngLazy) {
                 };
                 $scope.loaded = true;
             });
-    }]);
+        }]);
 });
