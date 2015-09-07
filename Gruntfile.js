@@ -113,11 +113,55 @@ module.exports = function (grunt) {
       all: ['Gruntfile.js', 'app/**/*.js', '!**/deps/**']
     },
     connect: {
+      options: {
+        port: 9000,
+        hostname: 'localhost'
+      },
+      test: {
+        options: {
+          base: ['app']
+        }
+      },
       server: {
         options: {
-          port: 9001,
           base: 'dist'
         }
+      }
+    },
+    protractor_webdriver: {
+      e2eUpdate: {
+        options: {
+          command: 'webdriver-manager update --standalone'
+        }
+      },
+      e2eStart: {
+        options: {}
+      }
+    },
+    protractor: {
+      options: {
+        configFile: 'test/conf.js',
+        noColor: false,
+        args: {}
+      },
+      e2e: {
+        options: {
+          keepAlive: false
+        }
+      },
+      continuous: {
+        options: {
+          keepAlive: true
+        }
+      }
+    },
+    watch: {
+      options: {
+        livereload: true
+      },
+      protractor: {
+        files: ['app/**/*'],
+        tasks: ['jshint', 'protractor:continuous']
       }
     }
   });
@@ -130,6 +174,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-protractor-webdriver');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('default', [
     'clean',
@@ -142,5 +189,17 @@ module.exports = function (grunt) {
   
   grunt.registerTask('serve', [
     'connect:server:keepalive'
+  ]);
+  
+  grunt.registerTask('e2e-test', [
+    'connect:test',
+    'protractor_webdriver:e2eStart',
+    'protractor:e2e'
+  ]);
+  
+  grunt.registerTask('e2e-continuous', [
+    'connect:test',
+    'protractor_webdriver:e2eStart',
+    'protractor:continuous'
   ]);
 };

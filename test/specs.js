@@ -1,7 +1,7 @@
 describe('MagManager', function() {
     var address = process.env.WEB_ADDRESS;
     if (!address) {
-        address = 'http://development.magmanager.divshot.io/';
+        address = 'http://localhost:9000/';
     }
     var timeoutMs = 500;
     
