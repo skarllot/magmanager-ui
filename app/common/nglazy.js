@@ -43,7 +43,7 @@ define(['require', 'angular'], function(require, ng) {
                 
                 return defer.promise;
             }
-        }
+        };
     }]);
     
     return ngLazy;

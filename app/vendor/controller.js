@@ -78,7 +78,7 @@ define([
             };
             
             $scope.$on('$routeUpdate', function(scope, next, current) {
-                if (_.keys($routeParams).length == 0)
+                if (_.keys($routeParams).length === 0)
                     return;
                 
                 if ($routeParams.edit)

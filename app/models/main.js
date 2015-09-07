@@ -7,5 +7,5 @@ define([
 	return {
 		vendor: vendor,
 		product: product
-	}
+	};
 });
