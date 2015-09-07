@@ -13,12 +13,12 @@ define([
             $scope.confirm = false;
             
             vendorService.GetVendor(vendorId)
-                .then(function(vendor) {
-                    $scope.vendor = vendor;
-                })
-                .catch(function(msg) {
-                    $modalInstance.dismiss(msg.message);
-                });
+            .then(function(vendor) {
+                $scope.vendor = vendor;
+            })
+            .catch(function(msg) {
+                $modalInstance.dismiss(msg.message);
+            });
             
             $scope.ok = function() {
                 vendorService.DeleteVendor($scope.vendor)

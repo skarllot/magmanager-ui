@@ -1,7 +1,8 @@
 define([
+    'lodash',
     './module',
-    'config'
-], function(mod, config) {
+    'models'
+], function(_, mod, models) {
     'use strict';
     
 	mod.controller('vendorCreateController', [
@@ -9,19 +10,19 @@ define([
         '$modalInstance',
         'vendorService',
         function($scope, $modalInstance, vendorService) {
-            $scope.vendor = config.models.getVendor();
+            $scope.vendor = models.vendor.get();
             $scope.confirm = false;
             
             $scope.ok = function() {
-                if (_.isEqual($scope.vendor, config.models.getVendor())) {
+                if (_.isEqual($scope.vendor, models.vendor.get())) {
                     $modalInstance.dismiss('The vendor was not changed');
                     return;
                 }
                 
                 vendorService.CreateVendor($scope.vendor)
-                    .then(function(result) {
-                        $modalInstance.close();
-                    });
+                .then(function(result) {
+                    $modalInstance.close();
+                });
             };
             
             $scope.cancel = function() {

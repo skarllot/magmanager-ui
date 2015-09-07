@@ -1,11 +1,10 @@
 define([
     'angular',
-    'config',
     'angular-route',
     'restangular',
     'angular-bootstrap',
-    'nglazy'
-    ], function(ng) {
+    'common/nglazy'
+], function(ng) {
     'use strict';
     
     var app = ng.module('magmanager', [

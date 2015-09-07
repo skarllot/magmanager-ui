@@ -6,7 +6,7 @@
     "Fabrício Godoy <skarllot@gmail.com>"
   ],
   "description": "Program for managing tape storing and carrying control",
-  "main": "index.html",
+  "main": "app/index.html",
   "moduleType": [
     "amd"
   ],
@@ -26,7 +26,7 @@
     "lodash": "latest",
     "angular": "~1.4",
     "angular-route": "~1.4",
-    "angular-bootstrap": "~0.13",
+    "angular-bootstrap": "0.13.3",
     "restangular": "~1.5",
     "requirejs": "latest",
     "requirejs-domready": "latest",

@@ -1,5 +1,5 @@
 define([
-	'nglazy'
+	'common/nglazy'
 ], function(ngLazy) {
 	'use strict';
 	

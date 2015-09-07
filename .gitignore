@@ -1,3 +1,5 @@
 *~
 *zip
-/deps
+/app/deps
+/dist
+/node_modules

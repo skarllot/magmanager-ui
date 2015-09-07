@@ -12,7 +12,7 @@ define(['app'], function(app) {
             templateUrl: 'vendor/product/view.html',
             resolve: {
                 deps : [ 'ngLazy', function(ngLazy) {
-                    return ngLazy.loadScript('vendor/product/index');
+                    return ngLazy.loadScript('vendor/product');
                 }]
             }
         })
@@ -22,7 +22,7 @@ define(['app'], function(app) {
             reloadOnSearch: false,
             resolve: {
                 deps: [ 'ngLazy', function(ngLazy) {
-                    return ngLazy.loadScript('vendor/index');
+                    return ngLazy.loadScript('vendor');
                 }]
             }
         })

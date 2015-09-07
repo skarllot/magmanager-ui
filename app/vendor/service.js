@@ -1,7 +1,8 @@
 define([
     './module',
-    'config'
-], function(mod, config) {
+    'config',
+    'models'
+], function(mod, config, models) {
     'use strict';
     
     mod.service('vendorService', [
@@ -70,43 +71,43 @@ define([
             
             this.CompareVendor = function(vendor) {
                 return self.GetVendor(vendor.id)
-                    .then(function(vendorGot) {
-                        return config.models.vendorEquals(vendor, vendorGot);
-                    });
+                .then(function(vendorGot) {
+                    return models.vendor.equals(vendor, vendorGot);
+                });
             };
             
             // UpdateVendor updates vendor object to upstream;
             // otherwise rejects.
             this.UpdateVendor = function(vendor) {
                 return self.CompareVendor(vendor)
-                    .then(function(isEqual) {
-                        if (!isEqual) {
-                            return vendor.put().then(function() {
-                                vendorList[currentVendor] = vendor;
-                            });
-                        }
-                        
-                        return $q.reject(new Error('The vendor was not changed'));
-                    });
+                .then(function(isEqual) {
+                    if (!isEqual) {
+                        return vendor.put().then(function() {
+                            vendorList[currentVendor] = vendor;
+                        });
+                    }
+                    
+                    return $q.reject(new Error('The vendor was not changed'));
+                });
             };
             
             this.CreateVendor = function(vendor) {
                 return apiVendors.post(vendor)
-                    .then(function(vendorCreated) {
-                        vendorList.push(vendorCreated);
-                        return vendorCreated;
-                    });
+                .then(function(vendorCreated) {
+                    vendorList.push(vendorCreated);
+                    return vendorCreated;
+                });
             };
             
             this.DeleteVendor = function(vendor) {
                 return vendor.remove()
-                    .then(function() {
-                        return getVendorIndex(vendor.id)
-                            .then(function(index) {
-                                vendorList.splice(index, 1);
-                                return vendor.id;
-                            });
-                    });
+                .then(function() {
+                    return getVendorIndex(vendor.id)
+                        .then(function(index) {
+                            vendorList.splice(index, 1);
+                            return vendor.id;
+                        });
+                });
             };
     }]);
 });

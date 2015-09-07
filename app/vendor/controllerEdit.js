@@ -13,20 +13,20 @@ define([
             $scope.confirm = false;
             
             vendorService.CopyVendor(vendorId)
-                .then(function(vendor) {
-                    $scope.vendor = vendor;
-                })
-                .catch(function(msg) {
-                    $modalInstance.dismiss(msg.message);
-                });
+            .then(function(vendor) {
+                $scope.vendor = vendor;
+            })
+            .catch(function(msg) {
+                $modalInstance.dismiss(msg.message);
+            });
             
             $scope.ok = function() {
                 vendorService.UpdateVendor($scope.vendor)
-                    .then(function() {
-                        $modalInstance.close();
-                    }, function(e) {
-                        $modalInstance.dismiss(e.message);
-                    });
+                .then(function() {
+                    $modalInstance.close();
+                }, function(e) {
+                    $modalInstance.dismiss(e.message);
+                });
             };
             
             $scope.cancel = function() {
@@ -35,12 +35,12 @@ define([
             
             $scope.safeCancel = function() {
                 vendorService.CompareVendor($scope.vendor)
-                    .then(function(isEqual) {
-                        if (isEqual)
-                            $scope.cancel();
-                        else
-                            $scope.confirm = true;
-                    });
+                .then(function(isEqual) {
+                    if (isEqual)
+                        $scope.cancel();
+                    else
+                        $scope.confirm = true;
+                });
             };
             
             $scope.$on('$routeUpdate', function(scope, next, current) {

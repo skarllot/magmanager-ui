@@ -4,7 +4,7 @@ define([
     'angular',
     'app',
     'routes',
-    'navbar'
+    'common/navbar'
     ], function(require, ng) {
     'use strict';
     
