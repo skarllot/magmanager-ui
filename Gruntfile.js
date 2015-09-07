@@ -27,7 +27,7 @@ module.exports = function (grunt) {
           src: [
             'bootstrap/dist/css/bootstrap.min.css',
             'bootstrap/dist/css/bootstrap-theme.min.css',
-            'bootstrap/fonts/*',
+            'bootstrap/dist/fonts/*',
             'font-awesome/css/font-awesome.min.css',
             'font-awesome/fonts/*',
             'lodash/lodash.min.js',
@@ -104,7 +104,7 @@ module.exports = function (grunt) {
           archive: 'magmanager-ui.zip'
         },
         expand: true,
-        cwd: '<%= config.app %>',
+        cwd: '<%= config.dist %>',
         src: [ '**/*' ],
         dest: '.'
       }
