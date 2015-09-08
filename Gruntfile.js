@@ -191,6 +191,10 @@ module.exports = function (grunt) {
     'connect:server:keepalive'
   ]);
   
+  grunt.registerTask('serve-test', [
+    'connect:test:keepalive'
+  ])
+  
   grunt.registerTask('e2e-test', [
     'connect:test',
     'protractor_webdriver:e2eStart',
