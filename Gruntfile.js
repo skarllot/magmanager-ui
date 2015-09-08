@@ -193,7 +193,7 @@ module.exports = function (grunt) {
   
   grunt.registerTask('serve-test', [
     'connect:test:keepalive'
-  ])
+  ]);
   
   grunt.registerTask('e2e-test', [
     'connect:test',
