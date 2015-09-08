@@ -1,2 +1,19 @@
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-body { padding-top: 50px; }
+/* Bootstrap-UI default adjustments */
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+body {
+	padding-top: 50px;
+}
+/* -------------------------------- */
+
+.modal-backdrop {
+	height: 200%;
+}
+.cell-crud a {
+	color: black;
+	margin-right: .5em;
+}
+.confirm-yes {
+	margin-right: 1em;
+}

@@ -1,4 +1,5 @@
 define([
 	'vendor/service',
-	'./controller'
+	'./controller',
+	'./controllerCreate'
 ], function() {});
