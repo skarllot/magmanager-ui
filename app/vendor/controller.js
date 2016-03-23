@@ -26,7 +26,7 @@ define([
             
             $scope.openEdit = function(vendorTarget) {
                 var modalInstance = $modal.open({
-                    templateUrl: 'modalVendorEdit.html',
+                    templateUrl: 'vendor/modalVendorEdit.html',
                     controller: 'vendorEditController',
                     backdrop: 'static',
                     resolve: {
@@ -45,7 +45,7 @@ define([
             };
             $scope.openCreate = function() {
                 var modalInstance = $modal.open({
-                    templateUrl: 'modalVendorCreate.html',
+                    templateUrl: 'vendor/modalVendorCreate.html',
                     controller: 'vendorCreateController',
                     backdrop: 'static'
                 });
@@ -59,7 +59,7 @@ define([
             };
             $scope.openDelete = function(vendorTarget) {
                 var modalInstance = $modal.open({
-                    templateUrl: 'modalVendorDelete.html',
+                    templateUrl: 'vendor/modalVendorDelete.html',
                     controller: 'vendorDeleteController',
                     backdrop: 'static',
                     resolve: {
