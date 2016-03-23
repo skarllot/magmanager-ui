@@ -27,7 +27,6 @@
     "angular": "~1.4",
     "angular-route": "~1.4",
     "angular-bootstrap": "0.13.3",
-    "restangular": "~1.5",
     "requirejs": "latest",
     "requirejs-domready": "latest",
     

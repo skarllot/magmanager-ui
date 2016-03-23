@@ -4,8 +4,7 @@ require.config({
         'angular': 'deps/angular/angular.min',
         'angular-bootstrap': 'deps/angular-bootstrap/ui-bootstrap-tpls.min',
         'angular-route': 'deps/angular-route/angular-route.min',
-        'lodash': 'deps/lodash/lodash.min',
-        'restangular': 'deps/restangular/dist/restangular.min'
+        'lodash': 'deps/lodash/lodash.min'
     },
     packages: [
         'common',
@@ -26,9 +25,6 @@ require.config({
         },
         'lodash': {
             exports: '_'
-        },
-        'restangular': {
-            deps: [ 'angular', 'lodash' ]
         }
     },
     deps: ['./bootstrap']

@@ -1,7 +1,6 @@
 define([
     'angular',
     'angular-route',
-    'restangular',
     'angular-bootstrap',
     'common/nglazy'
 ], function(ng) {
@@ -9,7 +8,6 @@ define([
     
     var app = ng.module('magmanager', [
         'ngRoute',
-        'restangular',
         'ui.bootstrap',
         'ngLazy'
     ]);
