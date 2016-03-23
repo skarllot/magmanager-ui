@@ -1,8 +1,8 @@
-<div ng-controller="vendorController">
+<div ng-controller="vendorController as vm">
     <div class="container">
     <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <h1>Vendors <small><a href="" ng-click="refresh();"><span class="fa fa-refresh" tooltip="Reload data"></span></a></small></h1>
+        <h1>Vendors <small><a href="" ng-click="vm.refresh();"><span class="fa fa-refresh" tooltip="Reload data"></span></a></small></h1>
         <table class="table">
             <thead>
                 <tr>
@@ -12,12 +12,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="vendors-loading" ng-hide="loaded">
+                <tr class="vendors-loading" ng-hide="vm.loaded">
                     <td><span class="fa fa-spinner" aria-hidden="true"></span> Loading...</td>
                     <td></td>
                     <td></td>
                 </tr>
-                <tr ng-repeat="v in vendors">
+                <tr ng-repeat="v in vm.vendors">
                     <td>
                         <span ng-bind="v.name"></span>
                     </td>

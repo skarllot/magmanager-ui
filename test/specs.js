@@ -7,7 +7,7 @@ describe('MagManager', function() {
     
     describe('vendor', function() {
         var addressVendor = address + '#/vendor';
-        var vendorList = element.all(by.repeater('v in vendors'));
+        var vendorList = element.all(by.repeater('v in vm.vendors'));
         
         it('open page', function() {
             browser.get(address);
