@@ -12,7 +12,7 @@ define([
             $scope.vendor = {};
             $scope.confirm = false;
             
-            vendorService.CopyVendor(vendorId)
+            vendorService.GetVendorClone(vendorId)
             .then(function(vendor) {
                 $scope.vendor = vendor;
             })

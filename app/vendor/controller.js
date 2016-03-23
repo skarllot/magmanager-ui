@@ -103,7 +103,7 @@ define([
                 $scope.openDelete();
             }
             
-            vendorService.GetVendors()
+            vendorService.GetVendorList()
                 .then(function(vendors) {
                     $scope.vendors = vendors;
                     $scope.loaded = true;

@@ -12,12 +12,11 @@ define([
     function vendorService($q, $http) {
         var service = {
             CompareVendor: compareVendor,
-            CopyVendor: copyVendor,
             CreateVendor: createVendor,
             DeleteVendor: deleteVendor,
             GetVendor: getVendor,
+            GetVendorClone: getVendorClone,
             GetVendorList: getVendorList,
-            GetVendors: getVendorList,
             UpdateVendor: updateVendor,
         };
 
@@ -70,12 +69,12 @@ define([
             });
         };
 
-        function copyVendor(id) {
+        function getVendorClone(id) {
             if (!id) {
                 return $q.reject(new Error('The vendor Id must be defined'));
             } else {
                 return getVendor(id).then(function (vendor) {
-                    return _.clone(vendor);
+                    return _.cloneDeep(vendor);
                 });
             }
         };
