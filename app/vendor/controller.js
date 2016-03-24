@@ -40,19 +40,19 @@ define([
 
             if ($routeParams.edit)
                 openModal(
-                    'vendor/modalVendorEdit.html',
+                    'vendor/modalEdit.html',
                     'vendorEditController',
                     $routeParams.edit
                 );
             else if ($routeParams.new)
                 openModal(
-                    'vendor/modalVendorCreate.html',
+                    'vendor/modalCreate.html',
                     'vendorCreateController',
                     $routeParams.new
                 );
             else if ($routeParams.delete)
                 openModal(
-                    'vendor/modalVendorDelete.html',
+                    'vendor/modalDelete.html',
                     'vendorDeleteController',
                     $routeParams.delete
                 );
