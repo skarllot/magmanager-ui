@@ -120,7 +120,7 @@ describe('MagManager', function() {
             browser.sleep(timeoutMs);
             
             expect(
-                element.all(by.repeater('p in vendor.products')).count()
+                element.all(by.repeater('p in vm.vendor.products')).count()
             ).toBeGreaterThan(0);
         });
         

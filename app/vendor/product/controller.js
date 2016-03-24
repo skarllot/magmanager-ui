@@ -1,80 +1,86 @@
 define([
+    'lodash',
     './module'
-], function(mod) {
+], function(_, mod) {
     'use strict';
-    
-    mod.controller('productController', [
-        '$rootScope',
-        '$scope',
-        '$routeParams',
-        '$location',
-        '$modal',
-        'vendorService',
-        function(
-            $rootScope,
-            $scope,
-            $routeParams,
-            $location,
-            $modal, 
-            vendorService
-        ) {
-            $scope.vendor = {};
-            $scope.loaded = false;
-            
-            $scope.openCreate = function() {
-                var modalInstance = $modal.open({
-                    templateUrl: 'modalProductCreate.html',
-                    controller: 'productCreateController',
-                    backdrop: 'static'
-                });
-                
-                modalInstance.result.then(function(selectedItem) {
-                }, function(msg) {
-                    console.info(msg);
-                }).then(function() {
-                    $location.search({});
-                });
-            };
-            
-            $scope.$on('$routeUpdate', function(scope, next, current) {
-                if (_.keys($routeParams).length === 0)
-                    return;
-                
-                if ($routeParams.edit)
-                    $scope.openEdit();
-                else if ($routeParams.new)
-                    $scope.openCreate();
-                else if ($routeParams.delete)
-                    $scope.openDelete();
-                else {
-                    console.warn('Unexpected route change');
-                    $location.search({});
-                }
-            });
-            
-            if ($routeParams.edit) {
-                $scope.openEdit();
-            }
-            if ($routeParams.new) {
-                $scope.openCreate();
-            }
-            if ($routeParams.delete) {
-                $scope.openDelete();
-            }
-            
-            vendorService.GetVendor($routeParams.id)
+
+    mod.controller('productController', productController);
+
+    productController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$modal', 'vendorService'];
+    function productController($rootScope, $scope, $routeParams, $location, $modal, vendorService) {
+        var vm = this;
+
+        vm.vendor = {};
+        vm.loaded = false;
+        $scope.$on('$routeUpdate', openModalOnRouteUpdate);
+        // Open modal when respective URL is open directly
+        openModalOnRouteUpdate();
+
+        // Loads the product list to current view
+        vendorService.GetVendor($routeParams.id)
             .then(function(vendor) {
                 $rootScope.title = vendor.name;
-                $scope.vendor = vendor;
-                $scope.loaded = true;
+                vm.vendor = vendor;
+                vm.loaded = true;
             })
             .catch(function(msg) {
                 $rootScope.title = 'Invalid';
-                $scope.vendor = {
+                vm.vendor = {
                     name: 'Invalid vendor Id',
                     products: []
                 };
-                $scope.loaded = true;
+                vm.loaded = true;
             });
-        }]);
+
+        function openModalOnRouteUpdate(scope, next, current) {
+            var routeParamsKeys = _.keys($routeParams);
+            if (routeParamsKeys.length === 0)
+                return;
+            if (routeParamsKeys.length === 1 && routeParamsKeys[0] === "id")
+                return;
+
+            if ($routeParams.edit)
+                openModal(
+                    'vendor/product/modalEdit.html',
+                    'productEditController',
+                    $routeParams.edit
+                );
+            else if ($routeParams.new)
+                openModal(
+                    'vendor/product/modalCreate.html',
+                    'productCreateController',
+                    $routeParams.new
+                );
+            else if ($routeParams.delete)
+                openModal(
+                    'vendor/product/modalDelete.html',
+                    'productDeleteController',
+                    $routeParams.delete
+                );
+            else {
+                console.warn('Unexpected route change');
+                $location.search({});
+            }
+        }
+
+        function openModal(tplURL, ctrlName, vendorId) {
+            var modalInstance = $modal.open({
+                templateUrl: tplURL,
+                controller: ctrlName + ' as vm',
+                backdrop: 'static',
+                resolve: {
+                    vendorId: function() {
+                        return vendorId;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function(msg) {
+                console.info(msg);
+            }).then(function() {
+                $location.search({});
+            });
+        }
+    }
 });
