@@ -1,7 +1,7 @@
 define([
     'lodash',
     './module'
-], function (_, mod) {
+], function(_, mod) {
     'use strict';
 
     mod.controller('vendorController', vendorController);
@@ -13,16 +13,13 @@ define([
         vm.loaded = false;
         vm.vendors = [];
         vm.refresh = refresh;
-        vm.openEdit = openEdit;
-        vm.openCreate = openCreate;
-        vm.openDelete = openDelete;
         $scope.$on('$routeUpdate', openModalOnRouteUpdate);
         // Open modal when respective URL is open directly
         openModalOnRouteUpdate();
 
         // Loads the vendor list to current view
         vendorService.GetVendorList()
-            .then(function (vendors) {
+            .then(function(vendors) {
                 vm.vendors = vendors;
                 vm.loaded = true;
             });
@@ -31,65 +28,10 @@ define([
             vm.vendors = [];
             vm.loaded = false;
             vendorService.GetVendors(true)
-                .then(function (vendors) {
+                .then(function(vendors) {
                     vm.vendors = vendors;
                     vm.loaded = true;
                 });
-        }
-
-        function openEdit(vendorTarget) {
-            var modalInstance = $modal.open({
-                templateUrl: 'vendor/modalVendorEdit.html',
-                controller: 'vendorEditController as vm',
-                backdrop: 'static',
-                resolve: {
-                    vendorId: function () {
-                        return $routeParams.edit;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (selectedItem) {
-            }, function (msg) {
-                console.info(msg);
-            }).then(function () {
-                $location.search({});
-            });
-        }
-
-        function openCreate() {
-            var modalInstance = $modal.open({
-                templateUrl: 'vendor/modalVendorCreate.html',
-                controller: 'vendorCreateController as vm',
-                backdrop: 'static'
-            });
-
-            modalInstance.result.then(function (selectedItem) {
-            }, function (msg) {
-                console.info(msg);
-            }).then(function () {
-                $location.search({});
-            });
-        }
-
-        function openDelete(vendorTarget) {
-            var modalInstance = $modal.open({
-                templateUrl: 'vendor/modalVendorDelete.html',
-                controller: 'vendorDeleteController as vm',
-                backdrop: 'static',
-                resolve: {
-                    vendorId: function () {
-                        return $routeParams.delete;
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (selectedItem) {
-            }, function (msg) {
-                console.info(msg);
-            }).then(function () {
-                $location.search({});
-            });
         }
 
         function openModalOnRouteUpdate(scope, next, current) {
@@ -97,15 +39,47 @@ define([
                 return;
 
             if ($routeParams.edit)
-                vm.openEdit();
+                openModal(
+                    'vendor/modalVendorEdit.html',
+                    'vendorEditController',
+                    $routeParams.edit
+                );
             else if ($routeParams.new)
-                vm.openCreate();
+                openModal(
+                    'vendor/modalVendorCreate.html',
+                    'vendorCreateController',
+                    $routeParams.new
+                );
             else if ($routeParams.delete)
-                vm.openDelete();
+                openModal(
+                    'vendor/modalVendorDelete.html',
+                    'vendorDeleteController',
+                    $routeParams.delete
+                );
             else {
                 console.warn('Unexpected route change');
                 $location.search({});
             }
+        }
+
+        function openModal(tplURL, ctrlName, vendorId) {
+            var modalInstance = $modal.open({
+                templateUrl: tplURL,
+                controller: ctrlName + ' as vm',
+                backdrop: 'static',
+                resolve: {
+                    vendorId: function() {
+                        return vendorId;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+            }, function(msg) {
+                console.info(msg);
+            }).then(function() {
+                $location.search({});
+            });
         }
     }
 });
