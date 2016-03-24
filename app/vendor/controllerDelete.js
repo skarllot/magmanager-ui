@@ -2,37 +2,40 @@ define([
     './module'
 ], function(mod) {
     'use strict';
-    
-	mod.controller('vendorDeleteController', [
-        '$scope',
-        '$modalInstance',
-        'vendorService',
-        'vendorId',
-        function($scope, $modalInstance, vendorService, vendorId) {
-            $scope.vendor = {};
-            $scope.confirm = false;
-            
-            vendorService.GetVendor(vendorId)
+
+    mod.controller('vendorDeleteController', vendorDeleteController);
+
+    vendorDeleteController.$inject = ['$scope', '$modalInstance', 'vendorService', 'vendorId'];
+    function vendorDeleteController($scope, $modalInstance, vendorService, vendorId) {
+        var vm = this;
+
+        vm.vendor = {};
+        vm.confirm = false;
+        vm.ok = deleteHandler;
+        vm.cancel = cancelHandler;
+        $scope.$on('$routeUpdate', closeOnRouteUpdate);
+
+        vendorService.GetVendor(vendorId)
             .then(function(vendor) {
-                $scope.vendor = vendor;
+                vm.vendor = vendor;
             })
             .catch(function(msg) {
                 $modalInstance.dismiss(msg.message);
             });
-            
-            $scope.ok = function() {
-                vendorService.DeleteVendor($scope.vendor)
-                    .then(function() {
-                        $modalInstance.close();
-                    });
-            };
-            
-            $scope.cancel = function() {
-                $modalInstance.dismiss('User cancel');
-            };
-            
-            $scope.$on('$routeUpdate', function(scope, next, current) {
-                $modalInstance.dismiss('Unexpected route change');
-            });
-    }]);
+
+        function deleteHandler() {
+            vendorService.DeleteVendor(vm.vendor)
+                .then(function() {
+                    $modalInstance.close();
+                });
+        }
+
+        function cancelHandler() {
+            $modalInstance.dismiss('User cancel');
+        }
+
+        function closeOnRouteUpdate(scope, next, current) {
+            $modalInstance.dismiss('Unexpected route change');
+        }
+    }
 });

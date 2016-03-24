@@ -2,35 +2,39 @@ define([
     'lodash',
     './module',
     'models'
-], function(_, mod, models) {
+], function (_, mod, models) {
     'use strict';
-    
-	mod.controller('vendorCreateController', [
-        '$scope',
-        '$modalInstance',
-        'vendorService',
-        function($scope, $modalInstance, vendorService) {
-            $scope.vendor = models.vendor.get();
-            $scope.confirm = false;
-            
-            $scope.ok = function() {
-                if (_.isEqual($scope.vendor, models.vendor.get())) {
-                    $modalInstance.dismiss('The vendor was not changed');
-                    return;
-                }
-                
-                vendorService.CreateVendor($scope.vendor)
-                .then(function(result) {
+
+    mod.controller('vendorCreateController', vendorCreateController);
+
+    vendorCreateController.$inject = ['$scope', '$modalInstance', 'vendorService'];
+    function vendorCreateController($scope, $modalInstance, vendorService) {
+        var vm = this;
+
+        vm.vendor = models.vendor.get();
+        vm.confirm = false;
+        vm.ok = saveHandler;
+        vm.cancel = cancelHandler;
+        $scope.$on('$routeUpdate', closeOnRouteUpdate);
+
+        function saveHandler() {
+            if (_.isEqual(vm.vendor, models.vendor.get())) {
+                $modalInstance.dismiss('The vendor was not changed');
+                return;
+            }
+
+            vendorService.CreateVendor(vm.vendor)
+                .then(function (result) {
                     $modalInstance.close();
                 });
-            };
-            
-            $scope.cancel = function() {
-                $modalInstance.dismiss('User cancel');
-            };
-            
-            $scope.$on('$routeUpdate', function(scope, next, current) {
-                $modalInstance.dismiss('Unexpected route change');
-            });
-    }]);
+        }
+
+        function cancelHandler() {
+            $modalInstance.dismiss('User cancel');
+        }
+
+        function closeOnRouteUpdate(scope, next, current) {
+            $modalInstance.dismiss('Unexpected route change');
+        }
+    }
 });

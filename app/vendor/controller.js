@@ -40,7 +40,7 @@ define([
         function openEdit(vendorTarget) {
             var modalInstance = $modal.open({
                 templateUrl: 'vendor/modalVendorEdit.html',
-                controller: 'vendorEditController',
+                controller: 'vendorEditController as vm',
                 backdrop: 'static',
                 resolve: {
                     vendorId: function () {
@@ -60,7 +60,7 @@ define([
         function openCreate() {
             var modalInstance = $modal.open({
                 templateUrl: 'vendor/modalVendorCreate.html',
-                controller: 'vendorCreateController',
+                controller: 'vendorCreateController as vm',
                 backdrop: 'static'
             });
 
@@ -75,7 +75,7 @@ define([
         function openDelete(vendorTarget) {
             var modalInstance = $modal.open({
                 templateUrl: 'vendor/modalVendorDelete.html',
-                controller: 'vendorDeleteController',
+                controller: 'vendorDeleteController as vm',
                 backdrop: 'static',
                 resolve: {
                     vendorId: function () {

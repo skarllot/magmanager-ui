@@ -1,50 +1,54 @@
 define([
     './module'
-], function(mod) {
+], function (mod) {
     'use strict';
-    
-    mod.controller('vendorEditController', [
-        '$scope',
-        '$modalInstance',
-        'vendorService',
-        'vendorId',
-        function($scope, $modalInstance, vendorService, vendorId) {
-            $scope.vendor = {};
-            $scope.confirm = false;
-            
-            vendorService.GetVendorClone(vendorId)
-            .then(function(vendor) {
-                $scope.vendor = vendor;
+
+    mod.controller('vendorEditController', vendorEditController);
+
+    vendorEditController.$inject = ['$scope', '$modalInstance', 'vendorService', 'vendorId'];
+    function vendorEditController($scope, $modalInstance, vendorService, vendorId) {
+        var vm = this;
+
+        vm.vendor = {};
+        vm.confirm = false;
+        vm.ok = saveHandler;
+        vm.cancel = cancelHandler;
+        vm.safeCancel = safeCancelHandler;
+        $scope.$on('$routeUpdate', closeOnRouteUpdate);
+
+        vendorService.GetVendorClone(vendorId)
+            .then(function (vendor) {
+                vm.vendor = vendor;
             })
-            .catch(function(msg) {
+            .catch(function (msg) {
                 $modalInstance.dismiss(msg.message);
             });
-            
-            $scope.ok = function() {
-                vendorService.UpdateVendor($scope.vendor)
-                .then(function() {
+
+        function saveHandler() {
+            vendorService.UpdateVendor(vm.vendor)
+                .then(function () {
                     $modalInstance.close();
-                }, function(e) {
+                }, function (e) {
                     $modalInstance.dismiss(e.message);
                 });
-            };
-            
-            $scope.cancel = function() {
-                $modalInstance.dismiss('User cancel');
-            };
-            
-            $scope.safeCancel = function() {
-                vendorService.CompareVendor($scope.vendor)
-                .then(function(isEqual) {
+        }
+
+        function cancelHandler() {
+            $modalInstance.dismiss('User cancel');
+        }
+
+        function safeCancelHandler() {
+            vendorService.CompareVendor($scope.vendor)
+                .then(function (isEqual) {
                     if (isEqual)
-                        $scope.cancel();
+                        cancelHandler();
                     else
-                        $scope.confirm = true;
+                        vm.confirm = true;
                 });
-            };
-            
-            $scope.$on('$routeUpdate', function(scope, next, current) {
-                $modalInstance.dismiss('Unexpected route change');
-            });
-    }]);
+        }
+
+        function closeOnRouteUpdate(scope, next, current) {
+            $modalInstance.dismiss('Unexpected route change');
+        }
+    }
 });

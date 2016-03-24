@@ -39,7 +39,7 @@ describe('MagManager', function() {
             vendorList.count().then(function(vendorCount) {
                 element(by.css('#vendor-new')).click();
 
-                var vName = element(by.model('vendor.name'));
+                var vName = element(by.model('vm.vendor.name'));
                 var btnSave = element(by.buttonText('Save'));
 
                 expect(vName.isPresent()).toBe(true);
@@ -70,7 +70,7 @@ describe('MagManager', function() {
                     .element(by.css('.vendor-edit'))
                     .click();
                 
-                txtVName = element(by.model('vendor.name'));
+                txtVName = element(by.model('vm.vendor.name'));
                 var btnSave = element(by.buttonText('Save'));
                 var btnCancel = element(by.buttonText('Cancel'));
                 
