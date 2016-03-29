@@ -58,6 +58,7 @@ define([
                 var vendor = vendorList[currentVendor];
                 if (vendor.id == id) {
                     return $q(function (resolve, reject) {
+                        delete vendor.$$hashKey;
                         resolve(vendor);
                     });
                 }
@@ -65,6 +66,7 @@ define([
 
             return getVendorIndex(id).then(function (index) {
                 currentVendor = index;
+                delete vendorList[index].$$hashKey;
                 return vendorList[index];
             });
         };
