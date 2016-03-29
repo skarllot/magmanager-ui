@@ -38,7 +38,7 @@ define([
         }
 
         function safeCancelHandler() {
-            vendorService.CompareVendor($scope.vendor)
+            vendorService.CompareVendor(vm.vendor)
                 .then(function (isEqual) {
                     if (isEqual)
                         cancelHandler();

@@ -66,7 +66,8 @@ define([
         function openModal(tplURL, ctrlName, vendorId) {
             var modalInstance = $modal.open({
                 templateUrl: tplURL,
-                controller: ctrlName + ' as vm',
+                controller: ctrlName,
+                controllerAs: 'vm',
                 backdrop: 'static',
                 resolve: {
                     vendorId: function() {

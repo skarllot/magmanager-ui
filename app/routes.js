@@ -13,6 +13,8 @@ define(['app'], function (app) {
             .when('/vendor/:id', {
                 title: 'Products',
                 templateUrl: 'vendor/product/view.html',
+                controller: 'productController',
+                controllerAs: 'vm',
                 resolve: {
                     deps: loadProductScript
                 }
@@ -20,6 +22,8 @@ define(['app'], function (app) {
             .when('/vendor', {
                 title: 'Vendors',
                 templateUrl: 'vendor/view.html',
+                controller: 'vendorController',
+                controllerAs: 'vm',
                 reloadOnSearch: false,
                 resolve: {
                     deps: loadVendorScript
