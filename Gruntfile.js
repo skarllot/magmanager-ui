@@ -63,6 +63,12 @@ module.exports = function (grunt) {
           ],
           dest: '<%= config.dist %>/deps'
         }]
+      },
+      bundle: {
+          files: [{
+              src: ['dist/bundle.js'],
+              dest: 'dist/bundle.js'
+          }]
       }
     },
     clean: {
@@ -195,7 +201,7 @@ module.exports = function (grunt) {
     'clean',
     'copy',
     'browserify:dist',
-    'uglify',
+    'uglify:bundle',
     'cssmin',
     'htmlmin',
     'compress'
