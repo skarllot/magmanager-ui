@@ -23,14 +23,6 @@
     "normalize.css": "latest",
     "bootstrap": "3.3.4",
     "font-awesome": "~4",
-    "lodash": "latest",
-    "angular": "~1.4",
-    "angular-route": "~1.4",
-    "angular-bootstrap": "0.13.3",
-    "requirejs": "latest",
-    "requirejs-domready": "latest",
-    
-    "html5shiv": "// Deps for IE8 support of HTML5 elements and media queries",
     "html5shiv": "latest",
     "respond": "latest"
   }

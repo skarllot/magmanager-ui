@@ -1,11 +1,11 @@
-define([], function() {
-	return {
-		get: function() {
-			return {
-				id: '',
-                name: '',
-                technology: ''
-			};
-		}
-	};
-});
+'use strict';
+
+module.exports = {
+    get: function() {
+        return {
+            id: '',
+            name: '',
+            technology: ''
+        };
+    }
+};
