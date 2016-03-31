@@ -163,6 +163,18 @@ module.exports = function (grunt) {
         files: ['app/**/*'],
         tasks: ['jshint', 'protractor:continuous']
       }
+    },
+    browserify: {
+        dist: {
+            files: {
+                'dist/bundle.js': ['app/bootstrap.js']
+            }
+        },
+        test: {
+            files: {
+                'app/bundle.js': ['app/bootstrap.js']
+            }
+        }
     }
   });
 
@@ -177,10 +189,12 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-protractor-webdriver');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-browserify');
 
   grunt.registerTask('default', [
     'clean',
     'copy',
+    'browserify:dist',
     'uglify',
     'cssmin',
     'htmlmin',
@@ -192,6 +206,7 @@ module.exports = function (grunt) {
   ]);
   
   grunt.registerTask('serve-test', [
+    'browserify:test',
     'connect:test:keepalive'
   ]);
   
