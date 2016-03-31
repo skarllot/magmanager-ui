@@ -1,8 +1,8 @@
-define([
-	'common/nglazy'
-], function(ngLazy) {
-	'use strict';
-	
-	//return ng.module('magmanager.vendor.product', []);
-	return ngLazy;
-});
+'use strict';
+
+var angular = require('angular');
+var app = angular.module('magmanager.vendor.product', []);
+
+app.service('vendorService', require('../service'));
+app.controller('productController', require('./controller'));
+app.controller('productCreateController', require('./controllerCreate'));

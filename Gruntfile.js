@@ -212,7 +212,7 @@ module.exports = function (grunt) {
   
   grunt.registerTask('e2e-test', [
     'default',
-    'connect:test',
+    'connect:server',
     'protractor_webdriver:e2eStart',
     'protractor:e2e'
   ]);

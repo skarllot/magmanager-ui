@@ -5,7 +5,8 @@ var angular = require('angular');
 var app = angular.module('magmanager', [
     require('angular-route'),
     require('angular-ui-bootstrap'),
-    require('./vendor')
+    require('./vendor'),
+    require('./vendor/product')
 ]);
 
 app.config(require('./routes'));

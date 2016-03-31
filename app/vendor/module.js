@@ -1,7 +1,6 @@
 'use strict';
 
 var angular = require('angular');
-
 var app = angular.module('magmanager.vendor', []);
 
 app.service('vendorService', require('./service'));
