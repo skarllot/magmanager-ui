@@ -13,7 +13,7 @@ app.config(require('./routes'));
 app.run(appRun);
 app.controller('navbarController', require('./common/navbar'));
 
-appRun.$inject = ['$location', '$rootScope']
+appRun.$inject = ['$location', '$rootScope'];
 function appRun($location, $rootScope) {
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         if (current.$$route && current.$$route.title) {

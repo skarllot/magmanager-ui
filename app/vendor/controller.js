@@ -3,7 +3,7 @@
 var _ = require('lodash');
 module.exports = vendorController;
 
-vendorController.$inject = ['$scope', '$routeParams', '$location', '$uibModal', 'vendorService']
+vendorController.$inject = ['$scope', '$routeParams', '$location', '$uibModal', 'vendorService'];
 function vendorController($scope, $routeParams, $location, $uibModal, vendorService) {
     var vm = this;
 

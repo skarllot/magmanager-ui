@@ -1,4 +1,4 @@
 'use strict';
 
-require('./module')
+require('./module');
 module.exports = 'magmanager.vendor';

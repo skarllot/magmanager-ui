@@ -48,7 +48,7 @@ function vendorService($q, $http) {
             vendorList = response.data;
             return vendorList;
         }
-    };
+    }
 
     function getVendor(id) {
         if (currentVendor > -1 && currentVendor < vendorList.length) {
@@ -66,7 +66,7 @@ function vendorService($q, $http) {
             delete vendorList[index].$$hashKey;
             return vendorList[index];
         });
-    };
+    }
 
     function getVendorClone(id) {
         if (!id) {
@@ -76,14 +76,14 @@ function vendorService($q, $http) {
                 return _.cloneDeep(vendor);
             });
         }
-    };
+    }
 
     function compareVendor(vendor) {
         return getVendor(vendor.id)
             .then(function(vendorGot) {
                 return _.isEqual(vendor, vendorGot);
             });
-    };
+    }
 
     // UpdateVendor updates vendor object to upstream;
     // otherwise rejects.
@@ -100,7 +100,7 @@ function vendorService($q, $http) {
 
                 return $q.reject(new Error('The vendor was not changed'));
             });
-    };
+    }
 
     function createVendor(vendor) {
         return $http.post(baseUrl, vendor)
@@ -108,7 +108,7 @@ function vendorService($q, $http) {
                 vendorList.push(response.data);
                 return response.data;
             });
-    };
+    }
 
     function deleteVendor(vendor) {
         var url = baseUrl + "/" + vendor.id;
@@ -120,5 +120,5 @@ function vendorService($q, $http) {
                         return vendor.id;
                     });
             });
-    };
+    }
 }
