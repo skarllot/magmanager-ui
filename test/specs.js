@@ -1,7 +1,7 @@
 describe('MagManager', function() {
     var address = process.env.WEB_ADDRESS;
     if (!address) {
-        address = 'http://localhost:9000/';
+        address = 'http://localhost:8000/';
     }
     var timeoutMs = 500;
     

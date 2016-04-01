@@ -7,11 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link rel="stylesheet" type="text/css" href="deps/normalize.css/normalize.css">
-    <link rel="stylesheet" href="deps/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="deps/bootstrap/dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="deps/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="common/main.css">
+    <link rel="stylesheet" type="text/css" href="deps/css/bundle.css">
+    <link rel="stylesheet" type="text/css" href="common/main.css">
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navbarController as vm">
@@ -40,12 +37,11 @@
       
     <div ng-view=""></div>
     
-    <!-- script src="deps/requirejs/require.js" data-main="main.js"></script -->
-    <script src="bundle.js"></script>
+    <script src="bootstrap.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-        <script src="deps/html5shiv/dist/html5shiv.min.js"></script>
-        <script src="deps/respond/dest/respond.min.js"></script>
+        <script src="deps/js/html5shiv.min.js"></script>
+        <script src="deps/js/respond.min.js"></script>
     <![endif]-->
 </body>
 </html>
