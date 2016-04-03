@@ -3,18 +3,18 @@
 var _ = require('lodash');
 module.exports = productController;
 
-productController.$inject = ['$rootScope', '$scope', '$routeParams', '$location', '$uibModal', 'vendorService'];
-function productController($rootScope, $scope, $routeParams, $location, $uibModal, vendorService) {
+productController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$uibModal', 'vendorService'];
+function productController($rootScope, $scope, $stateParams, $location, $uibModal, vendorService) {
     var vm = this;
 
     vm.vendor = {};
     vm.loaded = false;
-    $scope.$on('$routeUpdate', openModalOnRouteUpdate);
+    $scope.$on('$locationChangeSuccess', openModalOnRouteUpdate);
     // Open modal when respective URL is open directly
     openModalOnRouteUpdate();
 
     // Loads the product list to current view
-    vendorService.GetVendor($routeParams.id)
+    vendorService.GetVendor($stateParams.id)
         .then(function(vendor) {
             $rootScope.title = vendor.name;
             vm.vendor = vendor;
@@ -30,32 +30,31 @@ function productController($rootScope, $scope, $routeParams, $location, $uibModa
         });
 
     function openModalOnRouteUpdate(scope, next, current) {
-        var routeParamsKeys = _.keys($routeParams);
+        var routeParamsKeys = _.keys($stateParams);
         if (routeParamsKeys.length === 0)
             return;
         if (routeParamsKeys.length === 1 && routeParamsKeys[0] === "id")
             return;
 
-        if ($routeParams.edit)
+        if ($stateParams.edit)
             openModal(
                 'vendor/product/modalEdit.html',
                 'productEditController',
-                $routeParams.edit
+                $stateParams.edit
             );
-        else if ($routeParams.new)
+        else if ($stateParams.new)
             openModal(
                 'vendor/product/modalCreate.html',
                 'productCreateController',
-                $routeParams.new
+                $stateParams.new
             );
-        else if ($routeParams.delete)
+        else if ($stateParams.delete)
             openModal(
                 'vendor/product/modalDelete.html',
                 'productDeleteController',
-                $routeParams.delete
+                $stateParams.delete
             );
         else {
-            console.warn('Unexpected route change');
             $location.search({});
         }
     }
