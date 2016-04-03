@@ -10,7 +10,11 @@ var allPlugins = [
     new CleanPlugin(outputDir),
     new CopyWebpackPlugin([
         { from: 'app/index.html' }
-    ])
+    ]),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'common',
+        minChunks: Infinity
+    })
 ];
 var prodPlugins = [
     new webpack.optimize.DedupePlugin(),
@@ -40,6 +44,12 @@ module.exports = {
     debug: !production,
     //devtool: production ? false : 'eval',
     entry: {
+        'common': [
+            'angular',
+            'angular-ui-bootstrap',
+            'angular-ui-router',
+            'lodash'
+        ],
         'app': './app/bootstrap.js',
         'app-ie8': './app/index.ie8.js'
     },

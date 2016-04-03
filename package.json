@@ -34,6 +34,7 @@
     "html5shiv": "^3.7.3",
     "lodash": "^4.6.1",
     "normalize.css": "^4.0.0",
+    "oclazyload": "^1.0.9",
     "respond.js": "^1.4.2"
   },
   "devDependencies": {
