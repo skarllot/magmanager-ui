@@ -44,7 +44,7 @@ function productController($rootScope, $scope, $routeParams, $location, $uibModa
             );
         else if ($routeParams.new)
             openModal(
-                'vendor/product/modalCreate.html',
+                require('./modalCreate.html'),
                 'productCreateController',
                 $routeParams.new
             );
@@ -60,9 +60,9 @@ function productController($rootScope, $scope, $routeParams, $location, $uibModa
         }
     }
 
-    function openModal(tplURL, ctrlName, vendorId) {
+    function openModal(tplContent, ctrlName, vendorId) {
         var modalInstance = $uibModal.open({
-            templateUrl: tplURL,
+            template: tplContent,
             controller: ctrlName,
             controllerAs: 'vm',
             backdrop: 'static',

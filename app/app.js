@@ -1,5 +1,12 @@
 'use strict';
 
+// Styles
+require('normalize.css/normalize.css');
+require('bootstrap/dist/css/bootstrap.css');
+require('bootstrap/dist/css/bootstrap-theme.css');
+require('font-awesome/css/font-awesome.css');
+require('./common/main.css');
+
 var angular = require('angular');
 
 var app = angular.module('magmanager', [

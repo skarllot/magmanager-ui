@@ -7,17 +7,17 @@ function routeConfig($routeProvider) {
     $routeProvider
         .when('/', {
             title: 'Home',
-            templateUrl: 'home/view.html'
+            template: require('./home/view.html')
         })
         .when('/vendor/:id', {
             title: 'Products',
-            templateUrl: 'vendor/product/view.html',
+            template: require('./vendor/product/view.html'),
             controller: 'productController',
             controllerAs: 'vm'
         })
         .when('/vendor', {
             title: 'Vendors',
-            templateUrl: 'vendor/view.html',
+            template: require('./vendor/view.html'),
             controller: 'vendorController',
             controllerAs: 'vm',
             reloadOnSearch: false

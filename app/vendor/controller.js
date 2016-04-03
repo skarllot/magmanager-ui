@@ -37,19 +37,19 @@ function vendorController($scope, $routeParams, $location, $uibModal, vendorServ
 
         if ($routeParams.edit)
             openModal(
-                'vendor/modalEdit.html',
+                require('./modalEdit.html'),
                 'vendorEditController',
                 $routeParams.edit
             );
         else if ($routeParams.new)
             openModal(
-                'vendor/modalCreate.html',
+                require('./modalCreate.html'),
                 'vendorCreateController',
                 $routeParams.new
             );
         else if ($routeParams.delete)
             openModal(
-                'vendor/modalDelete.html',
+                require('./modalDelete.html'),
                 'vendorDeleteController',
                 $routeParams.delete
             );
@@ -59,9 +59,9 @@ function vendorController($scope, $routeParams, $location, $uibModal, vendorServ
         }
     }
 
-    function openModal(tplURL, ctrlName, vendorId) {
+    function openModal(tplContent, ctrlName, vendorId) {
         var modalInstance = $uibModal.open({
-            templateUrl: tplURL,
+            template: tplContent,
             controller: ctrlName,
             controllerAs: 'vm',
             backdrop: 'static',
