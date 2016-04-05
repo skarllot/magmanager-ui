@@ -12,7 +12,7 @@ function vendorCreateController($scope, $uibModalInstance, vendorService) {
     vm.confirm = false;
     vm.ok = saveHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
+    $scope.$on('$routeUpdate', closeOnRouteUpdate);
 
     function saveHandler() {
         if (_.isEqual(vm.vendor, models.vendor.get())) {

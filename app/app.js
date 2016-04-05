@@ -1,18 +1,12 @@
 'use strict';
 
-// Styles
-require('normalize.css/normalize.css');
-require('bootstrap/dist/css/bootstrap.css');
-require('bootstrap/dist/css/bootstrap-theme.css');
-require('font-awesome/css/font-awesome.css');
-require('./common/main.css');
-
 var angular = require('angular');
 
 var app = angular.module('magmanager', [
-    require('angular-ui-router'),
+    require('angular-route'),
     require('angular-ui-bootstrap'),
-    require('oclazyload')
+    require('./vendor'),
+    require('./vendor/product')
 ]);
 
 app.config(require('./routes'));
@@ -21,9 +15,9 @@ app.controller('navbarController', require('./common/navbar'));
 
 appRun.$inject = ['$location', '$rootScope'];
 function appRun($location, $rootScope) {
-    $rootScope.$on('$stateChangeStart', function(event, current, previous) {
-        if (current.title) {
-            $rootScope.title = current.title;
+    $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
+        if (current.$$route && current.$$route.title) {
+            $rootScope.title = current.$$route.title;
         }
     });
 }

@@ -3,14 +3,14 @@
 var _ = require('lodash');
 module.exports = vendorController;
 
-vendorController.$inject = ['$scope', '$stateParams', '$location', '$uibModal', 'vendorService'];
-function vendorController($scope, $stateParams, $location, $uibModal, vendorService) {
+vendorController.$inject = ['$scope', '$routeParams', '$location', '$uibModal', 'vendorService'];
+function vendorController($scope, $routeParams, $location, $uibModal, vendorService) {
     var vm = this;
 
     vm.loaded = false;
     vm.vendors = [];
     vm.refresh = refresh;
-    $scope.$on('$locationChangeSuccess', openModalOnRouteUpdate);
+    $scope.$on('$routeUpdate', openModalOnRouteUpdate);
     // Open modal when respective URL is open directly
     openModalOnRouteUpdate();
 
@@ -32,35 +32,36 @@ function vendorController($scope, $stateParams, $location, $uibModal, vendorServ
     }
 
     function openModalOnRouteUpdate(scope, next, current) {
-        if (_.keys($stateParams).length === 0)
+        if (_.keys($routeParams).length === 0)
             return;
 
-        if ($stateParams.edit)
+        if ($routeParams.edit)
             openModal(
-                require('./modalEdit.html'),
+                'vendor/modalEdit.html',
                 'vendorEditController',
-                $stateParams.edit
+                $routeParams.edit
             );
-        else if ($stateParams.new)
+        else if ($routeParams.new)
             openModal(
-                require('./modalCreate.html'),
+                'vendor/modalCreate.html',
                 'vendorCreateController',
-                $stateParams.new
+                $routeParams.new
             );
-        else if ($stateParams.delete)
+        else if ($routeParams.delete)
             openModal(
-                require('./modalDelete.html'),
+                'vendor/modalDelete.html',
                 'vendorDeleteController',
-                $stateParams.delete
+                $routeParams.delete
             );
         else {
+            console.warn('Unexpected route change');
             $location.search({});
         }
     }
 
-    function openModal(tplContent, ctrlName, vendorId) {
+    function openModal(tplURL, ctrlName, vendorId) {
         var modalInstance = $uibModal.open({
-            template: tplContent,
+            templateUrl: tplURL,
             controller: ctrlName,
             controllerAs: 'vm',
             backdrop: 'static',

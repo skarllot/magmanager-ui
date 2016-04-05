@@ -12,7 +12,7 @@ function productCreateController($scope, $uibModalInstance, vendorService) {
     vm.confirm = false;
     vm.ok = saveHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$locationChangeSuccess', closeOnRouteUpdate);
+    $scope.$on('$routeUpdate', closeOnRouteUpdate);
 
     function saveHandler() {
         if (_.isEqual(vm.vendor, models.product.get())) {

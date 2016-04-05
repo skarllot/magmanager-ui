@@ -10,7 +10,7 @@ function vendorDeleteController($scope, $uibModalInstance, vendorService, vendor
     vm.confirm = false;
     vm.ok = deleteHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
+    $scope.$on('$routeUpdate', closeOnRouteUpdate);
 
     vendorService.GetVendor(vendorId)
         .then(function(vendor) {

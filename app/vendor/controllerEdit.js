@@ -11,7 +11,7 @@ function vendorEditController($scope, $uibModalInstance, vendorService, vendorId
     vm.ok = saveHandler;
     vm.cancel = cancelHandler;
     vm.safeCancel = safeCancelHandler;
-    $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
+    $scope.$on('$routeUpdate', closeOnRouteUpdate);
 
     vendorService.GetVendorClone(vendorId)
         .then(function(vendor) {
