@@ -19,6 +19,9 @@ var allPlugins = [
 var prodPlugins = [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.MinChunkSizePlugin({
+        minChunkSize: 51200     // ~50kb
+    }),
     new webpack.optimize.UglifyJsPlugin({
         comments: false,
         mangle: true,
@@ -48,7 +51,11 @@ module.exports = {
             'angular',
             'angular-ui-bootstrap',
             'angular-ui-router',
-            'lodash'
+            'lodash',
+            'normalize.css/normalize.css',
+            'bootstrap/dist/css/bootstrap.css',
+            'bootstrap/dist/css/bootstrap-theme.css',
+            'font-awesome/css/font-awesome.css'
         ],
         'app': './app/bootstrap.js',
         'app-ie8': './app/index.ie8.js'
@@ -60,10 +67,10 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /\.html$/, loader: 'html' },
-            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=fonts/[hash].[ext]" },
-            { test: /\.(woff|woff2)(\?v=[0-9.]+)?$/, loader: "url?prefix=font/&limit=5000&name=fonts/[hash].[ext]" },
-            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream&name=fonts/[hash].[ext]" },
-            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml&name=fonts/[hash].[ext]" }
+            { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=fonts/[name].[ext]" },
+            { test: /\.(woff|woff2)(\?v=[0-9.]+)?$/, loader: "url?prefix=font/&limit=5000&name=fonts/[name].[ext]" },
+            { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream&name=fonts/[name].[ext]" },
+            { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml&name=fonts/[name].[ext]" }
         ]
     },
     output: {
