@@ -3,14 +3,14 @@
 var _ = require('lodash');
 module.exports = vendorController;
 
-vendorController.$inject = ['$scope', '$routeParams', '$location', '$uibModal', 'vendorService'];
-function vendorController($scope, $routeParams, $location, $uibModal, vendorService) {
+vendorController.$inject = ['$scope', '$stateParams', '$location', '$uibModal', 'vendorService'];
+function vendorController($scope, $stateParams, $location, $uibModal, vendorService) {
     var vm = this;
 
     vm.loaded = false;
     vm.vendors = [];
     vm.refresh = refresh;
-    $scope.$on('$routeUpdate', openModalOnRouteUpdate);
+    $scope.$on('$locationChangeSuccess', openModalOnRouteUpdate);
     // Open modal when respective URL is open directly
     openModalOnRouteUpdate();
 
@@ -32,29 +32,28 @@ function vendorController($scope, $routeParams, $location, $uibModal, vendorServ
     }
 
     function openModalOnRouteUpdate(scope, next, current) {
-        if (_.keys($routeParams).length === 0)
+        if (_.keys($stateParams).length === 0)
             return;
 
-        if ($routeParams.edit)
+        if ($stateParams.edit)
             openModal(
                 'vendor/modalEdit.html',
                 'vendorEditController',
-                $routeParams.edit
+                $stateParams.edit
             );
-        else if ($routeParams.new)
+        else if ($stateParams.new)
             openModal(
                 'vendor/modalCreate.html',
                 'vendorCreateController',
-                $routeParams.new
+                $stateParams.new
             );
-        else if ($routeParams.delete)
+        else if ($stateParams.delete)
             openModal(
                 'vendor/modalDelete.html',
                 'vendorDeleteController',
-                $routeParams.delete
+                $stateParams.delete
             );
         else {
-            console.warn('Unexpected route change');
             $location.search({});
         }
     }

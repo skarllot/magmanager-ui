@@ -6,6 +6,7 @@
     "test": "test"
   },
   "scripts": {
+    "browserify": "browserify",
     "start": "grunt && grunt serve",
     "test": "grunt e2e-test",
     "postinstall": "node_modules/protractor/bin/webdriver-manager update --standalone"
@@ -20,6 +21,20 @@
     "url": "https://github.com/skarllot/magmanager-ui/issues"
   },
   "homepage": "https://github.com/skarllot/magmanager-ui#readme",
+  "engines": {
+    "npm": "^3"
+  },
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-ui-bootstrap": "^1.2.5",
+    "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0",
+    "html5shiv": "^3.7.3",
+    "lodash": "^4.6.1",
+    "normalize.css": "^4.0.0",
+    "respond.js": "^1.4.2"
+  },
   "devDependencies": {
     "browserify": "^13.0.0",
     "connect": "^3.4.1",
@@ -42,12 +57,5 @@
     "serve-static": "^1.10.2",
     "vinyl-source-stream": "^1.1.0",
     "webdriverio": "^4.0.5"
-  },
-  "dependencies": {
-    "angular": "^1.5.3",
-    "angular-route": "^1.5.3",
-    "angular-ui-bootstrap": "^1.2.5",
-    "install": "^0.6.1",
-    "lodash": "^4.6.1"
   }
 }

@@ -3,7 +3,7 @@
 var angular = require('angular');
 
 var app = angular.module('magmanager', [
-    require('angular-route'),
+    require('angular-ui-router'),
     require('angular-ui-bootstrap'),
     require('./vendor'),
     require('./vendor/product')
@@ -15,9 +15,9 @@ app.controller('navbarController', require('./common/navbar'));
 
 appRun.$inject = ['$location', '$rootScope'];
 function appRun($location, $rootScope) {
-    $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-        if (current.$$route && current.$$route.title) {
-            $rootScope.title = current.$$route.title;
+    $rootScope.$on('$stateChangeStart', function(event, current, previous) {
+        if (current.title) {
+            $rootScope.title = current.title;
         }
     });
 }

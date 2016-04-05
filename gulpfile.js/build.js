@@ -39,12 +39,12 @@ gulp.task('clean-build', function() {
 });
 
 gulp.task('copy-css', function() {
-    gulp.src(['app/**/*.css', '!app/deps/**'])
+    gulp.src(['app/**/*.css'])
         .pipe(gulp.dest('build/'));
 });
 
 gulp.task('copy-html', function() {
-    gulp.src(['app/**/*.html', '!app/deps/**'])
+    gulp.src(['app/**/*.html'])
         .pipe(gulp.dest('build/'));
 });
 
@@ -54,20 +54,20 @@ gulp.task('deploy-deps', function() {
         'bootstrap/dist/css/bootstrap.css',
         'bootstrap/dist/css/bootstrap-theme.css',
         'font-awesome/css/font-awesome.css'
-    ], { cwd: 'app/deps' })
+    ], { cwd: 'node_modules' })
         .pipe(concat('bundle.css'))
         .pipe(gulp.dest('build/deps/css'));
 
     var fonts = gulp.src([
         'bootstrap/dist/fonts/*',
         'font-awesome/fonts/*'
-    ], { cwd: 'app/deps' })
+    ], { cwd: 'node_modules' })
         .pipe(gulp.dest('build/deps/fonts'));
 
     var ltIE9 = gulp.src([
         'html5shiv/dist/html5shiv.min.js',
-        'respond/dest/respond.min.js'
-    ], { cwd: 'app/deps' })
+        'respond.js/dest/respond.min.js'
+    ], { cwd: 'node_modules' })
         .pipe(gulp.dest('build/deps/js'));
 
     return merge(cssfiles, fonts, ltIE9);
@@ -77,8 +77,7 @@ gulp.task('jshint', function() {
     return gulp.src([
         '*.js',
         'gulpfile.js/**/*.js',
-        'app/**/*.js',
-        '!app/deps/**'
+        'app/**/*.js'
     ])
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
