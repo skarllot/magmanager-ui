@@ -1,3 +1,5 @@
+'use strict';
+
 var connect = require('connect');
 var gulp = require('gulp');
 var http = require('http');

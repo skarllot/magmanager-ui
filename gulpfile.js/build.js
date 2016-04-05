@@ -1,3 +1,5 @@
+'use strict';
+
 var browserify = require('browserify');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
