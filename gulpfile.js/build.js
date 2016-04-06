@@ -3,12 +3,12 @@
 var browserify = require('browserify');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
+var connect = require('gulp-connect');
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var merge = require('merge-stream');
 var runSequence = require('run-sequence');
 var source = require('vinyl-source-stream');
-var webserver = require('gulp-webserver');
 
 // Compile files to intermediary directory (build)
 gulp.task('build', ['jshint'], function(cb) {
@@ -20,19 +20,20 @@ gulp.task('build', ['jshint'], function(cb) {
     ], cb);
 });
 
-gulp.task('serve-test', ['build'], function() {
-    gulp.src('build')
-        .pipe(webserver({
-            livereload: false,
-            open: true
-        }));
+gulp.task('serve-test', ['build', 'watch'], function() {
+    connect.server({
+        port: 8000,
+        root: 'build',
+        livereload: true
+    });
 });
 
 gulp.task('browserify', function() {
     return browserify('app/bootstrap.js')
         .bundle()
         .pipe(source('bootstrap.js'))
-        .pipe(gulp.dest('build'));
+        .pipe(gulp.dest('build'))
+        .pipe(connect.reload());
 });
 
 gulp.task('clean-build', function() {
@@ -42,12 +43,14 @@ gulp.task('clean-build', function() {
 
 gulp.task('copy-css', function() {
     gulp.src(['app/**/*.css'])
-        .pipe(gulp.dest('build/'));
+        .pipe(gulp.dest('build/'))
+        .pipe(connect.reload());
 });
 
 gulp.task('copy-html', function() {
     gulp.src(['app/**/*.html'])
-        .pipe(gulp.dest('build/'));
+        .pipe(gulp.dest('build/'))
+        .pipe(connect.reload());
 });
 
 gulp.task('deploy-deps', function() {
@@ -72,7 +75,8 @@ gulp.task('deploy-deps', function() {
     ], { cwd: 'node_modules' })
         .pipe(gulp.dest('build/deps/js'));
 
-    return merge(cssfiles, fonts, ltIE9);
+    return merge(cssfiles, fonts, ltIE9)
+        .pipe(connect.reload());
 });
 
 gulp.task('jshint', function() {
@@ -84,4 +88,10 @@ gulp.task('jshint', function() {
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
         .pipe(jshint.reporter('fail'));
+});
+
+gulp.task('watch', function() {
+    gulp.watch('app/**/*.js', ['jshint', 'browserify']);
+    gulp.watch('app/**/*.css', ['copy-css']);
+    gulp.watch('app/**/*.html', ['copy-html']);
 });

@@ -2,12 +2,12 @@
 
 var clean = require('gulp-clean');
 var cleanCSS = require('gulp-clean-css');
+var connect = require('gulp-connect');
 var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin');
 var merge = require('merge-stream');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
-var webserver = require('gulp-webserver');
 var zip = require('gulp-zip');
 
 //var buffer = require('vinyl-buffer');
@@ -25,11 +25,10 @@ gulp.task('default', ['build'], function(cb) {
 });
 
 gulp.task('serve', ['default'], function() {
-    gulp.src('dist')
-        .pipe(webserver({
-            livereload: false,
-            open: true
-        }));
+    connect.server({
+        root: 'dist',
+        livereload: false
+    });
 });
 
 gulp.task('clean-dist', function() {
