@@ -35,13 +35,7 @@ function vendorController($scope, $stateParams, $location, $uibModal, vendorServ
         if (_.keys($stateParams).length === 0)
             return;
 
-        if ($stateParams.edit)
-            openModal(
-                'vendor/modalEdit.html',
-                'vendorEditController',
-                $stateParams.edit
-            );
-        else if ($stateParams.new)
+        if ($stateParams.new)
             openModal(
                 'vendor/modalCreate.html',
                 'vendorCreateController',

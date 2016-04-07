@@ -2,8 +2,8 @@
 
 module.exports = vendorEditController;
 
-vendorEditController.$inject = ['$scope', '$uibModalInstance', 'vendorService', 'vendorId'];
-function vendorEditController($scope, $uibModalInstance, vendorService, vendorId) {
+vendorEditController.$inject = ['$scope', '$stateParams', '$uibModalInstance', 'vendorService'];
+function vendorEditController($scope, $stateParams, $uibModalInstance, vendorService) {
     var vm = this;
 
     vm.vendor = {};
@@ -13,7 +13,7 @@ function vendorEditController($scope, $uibModalInstance, vendorService, vendorId
     vm.safeCancel = safeCancelHandler;
     $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
 
-    vendorService.GetVendorClone(vendorId)
+    vendorService.GetVendorClone($stateParams.id)
         .then(function(vendor) {
             vm.vendor = vendor;
         })

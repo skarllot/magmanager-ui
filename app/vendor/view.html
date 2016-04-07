@@ -28,7 +28,7 @@
                         <a href="#/vendor/{{ v.id }}" class="vendor-filter">
                             <span class="fa fa-filter" tooltip="Show products from this vendor"></span>
                         </a>
-                        <a href="#/vendor?edit={{ v.id }}" class="vendor-edit">
+                        <a ui-sref="vendor.edit({id: v.id})" class="vendor-edit">
                             <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
                         </a>
                         <a href="#/vendor?delete={{ v.id }}" class="vendor-delete">
@@ -42,5 +42,6 @@
     </div>
     </div>
     </div>
-    <div ui-view></div>
+    
+    <div ui-view="modal" autoscroll="false"></div>
 </div>

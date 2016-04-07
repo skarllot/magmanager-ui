@@ -5,6 +5,7 @@ var angular = require('angular');
 var app = angular.module('magmanager', [
     require('angular-ui-router'),
     require('angular-ui-bootstrap'),
+    require('./components/modal'),
     require('./vendor'),
     require('./vendor/product')
 ]);
