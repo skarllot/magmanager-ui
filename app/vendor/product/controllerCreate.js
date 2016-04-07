@@ -4,15 +4,14 @@ var _ = require('lodash');
 var models = require('../../models');
 module.exports = productCreateController;
 
-productCreateController.$inject = ['$scope', '$uibModalInstance', 'vendorService'];
-function productCreateController($scope, $uibModalInstance, vendorService) {
+productCreateController.$inject = ['$uibModalInstance', 'vendorService'];
+function productCreateController($uibModalInstance, vendorService) {
     var vm = this;
 
     vm.product = models.product.get();
     vm.confirm = false;
     vm.ok = saveHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$locationChangeSuccess', closeOnRouteUpdate);
 
     function saveHandler() {
         if (_.isEqual(vm.vendor, models.product.get())) {
@@ -28,9 +27,5 @@ function productCreateController($scope, $uibModalInstance, vendorService) {
 
     function cancelHandler() {
         $uibModalInstance.dismiss('User cancel');
-    }
-
-    function closeOnRouteUpdate(scope, next, current) {
-        $uibModalInstance.dismiss('Unexpected route change');
     }
 }

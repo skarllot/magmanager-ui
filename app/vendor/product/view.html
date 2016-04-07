@@ -21,17 +21,19 @@
                 <td ng-bind="p.name"></td>
                 <td ng-bind="p.technology"></td>
                 <td class="cell-crud" nowrap>
-                    <a href="#/vendor/{{ vm.vendor.id }}?edit={{ p.id }}" class="product-edit">
+                    <a ui-sref="product.edit({pid: v.id})" class="product-edit">
                         <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
                     </a>
-                    <a href="#/vendor/{{ vm.vendor.id }}?delete={{ p.id }}" class="product-delete">
+                    <a ui-sref="product.delete({pid: v.id })" class="product-delete">
                         <span class="fa fa-trash-o" tooltip="Remove vendor"></span>
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
-    <a href="#/vendor/{{ vm.vendor.id }}?new=true" id="product-new" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New product</a>
+    <a ui-sref="product.new" id="product-new" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New product</a>
 </div>
 </div>
+    
+    <div ui-view autoscroll="false"></div>
 </div>

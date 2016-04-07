@@ -69,10 +69,25 @@ function routeConfig($urlRouterProvider, $stateProvider) {
         })
         .state('product', {
             title: 'Products',
-            url: '/vendor/:id?edit&new&delete',
+            url: '/vendor/:id',
             templateUrl: 'vendor/product/view.html',
             controller: 'productController',
-            controllerAs: 'vm',
-            reloadOnSearch: false
+            controllerAs: 'vm'
+        })
+        .state('product.new', {
+            title: 'Create Product',
+            url: '/new',
+            templateUrl: 'modal/default-template.html',
+            controller: 'modalController',
+            resolve: {
+                modalParams: function() {
+                    return {
+                        templateUrl: 'vendor/product/modalCreate.html',
+                        controller: 'productCreateController',
+                        controllerAs: 'vm',
+                        backdrop: 'static'
+                    };
+                }
+            }
         });
 }

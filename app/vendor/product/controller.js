@@ -3,15 +3,12 @@
 var _ = require('lodash');
 module.exports = productController;
 
-productController.$inject = ['$rootScope', '$scope', '$stateParams', '$location', '$uibModal', 'vendorService'];
-function productController($rootScope, $scope, $stateParams, $location, $uibModal, vendorService) {
+productController.$inject = ['$rootScope', '$stateParams', 'vendorService'];
+function productController($rootScope, $stateParams, vendorService) {
     var vm = this;
 
     vm.vendor = {};
     vm.loaded = false;
-    $scope.$on('$locationChangeSuccess', openModalOnRouteUpdate);
-    // Open modal when respective URL is open directly
-    openModalOnRouteUpdate();
 
     // Loads the product list to current view
     vendorService.GetVendor($stateParams.id)
@@ -28,55 +25,4 @@ function productController($rootScope, $scope, $stateParams, $location, $uibModa
             };
             vm.loaded = true;
         });
-
-    function openModalOnRouteUpdate(scope, next, current) {
-        var routeParamsKeys = _.keys($stateParams);
-        if (routeParamsKeys.length === 0)
-            return;
-        if (routeParamsKeys.length === 1 && routeParamsKeys[0] === "id")
-            return;
-
-        if ($stateParams.edit)
-            openModal(
-                'vendor/product/modalEdit.html',
-                'productEditController',
-                $stateParams.edit
-            );
-        else if ($stateParams.new)
-            openModal(
-                'vendor/product/modalCreate.html',
-                'productCreateController',
-                $stateParams.new
-            );
-        else if ($stateParams.delete)
-            openModal(
-                'vendor/product/modalDelete.html',
-                'productDeleteController',
-                $stateParams.delete
-            );
-        else {
-            $location.search({});
-        }
-    }
-
-    function openModal(tplURL, ctrlName, vendorId) {
-        var modalInstance = $uibModal.open({
-            templateUrl: tplURL,
-            controller: ctrlName,
-            controllerAs: 'vm',
-            backdrop: 'static',
-            resolve: {
-                vendorId: function() {
-                    return vendorId;
-                }
-            }
-        });
-
-        modalInstance.result.then(function(selectedItem) {
-        }, function(msg) {
-            console.info(msg);
-        }).then(function() {
-            $location.search({});
-        });
-    }
 }
