@@ -21,7 +21,10 @@ function routeConfig($urlRouterProvider, $stateProvider) {
             reloadOnSearch: false
         })
         .state('vendor.edit', {
+            title: 'Edit Vendor',
             url: '/edit/:id',
+            templateUrl: 'modal/default-template.html',
+            controller: 'modalController',
             resolve: {
                 modalParams: function() {
                     return {
@@ -29,13 +32,7 @@ function routeConfig($urlRouterProvider, $stateProvider) {
                         controller: 'vendorEditController',
                         controllerAs: 'vm',
                         backdrop: 'static'
-                    }
-                }
-            },
-            views: {
-                'modal': {
-                    templateUrl: 'modal/default-template.html',
-                    controller: 'modalController'
+                    };
                 }
             }
         })
