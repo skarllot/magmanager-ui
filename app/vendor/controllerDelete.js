@@ -2,17 +2,16 @@
 
 module.exports = vendorDeleteController;
 
-vendorDeleteController.$inject = ['$scope', '$uibModalInstance', 'vendorService', 'vendorId'];
-function vendorDeleteController($scope, $uibModalInstance, vendorService, vendorId) {
+vendorDeleteController.$inject = ['$stateParams', '$uibModalInstance', 'vendorService'];
+function vendorDeleteController($stateParams, $uibModalInstance, vendorService) {
     var vm = this;
 
     vm.vendor = {};
     vm.confirm = false;
     vm.ok = deleteHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
 
-    vendorService.GetVendor(vendorId)
+    vendorService.GetVendor($stateParams.id)
         .then(function(vendor) {
             vm.vendor = vendor;
         })
@@ -29,9 +28,5 @@ function vendorDeleteController($scope, $uibModalInstance, vendorService, vendor
 
     function cancelHandler() {
         $uibModalInstance.dismiss('User cancel');
-    }
-
-    function closeOnRouteUpdate(scope, next, current) {
-        $uibModalInstance.dismiss('Unexpected route change');
     }
 }

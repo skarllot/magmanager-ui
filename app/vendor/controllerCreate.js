@@ -4,15 +4,14 @@ var _ = require('lodash');
 var models = require('../models');
 module.exports = vendorCreateController;
 
-vendorCreateController.$inject = ['$scope', '$uibModalInstance', 'vendorService'];
-function vendorCreateController($scope, $uibModalInstance, vendorService) {
+vendorCreateController.$inject = ['$uibModalInstance', 'vendorService'];
+function vendorCreateController($uibModalInstance, vendorService) {
     var vm = this;
 
     vm.vendor = models.vendor.get();
     vm.confirm = false;
     vm.ok = saveHandler;
     vm.cancel = cancelHandler;
-    $scope.$on('$routeChangeSuccess', closeOnRouteUpdate);
 
     function saveHandler() {
         if (_.isEqual(vm.vendor, models.vendor.get())) {
@@ -28,9 +27,5 @@ function vendorCreateController($scope, $uibModalInstance, vendorService) {
 
     function cancelHandler() {
         $uibModalInstance.dismiss('User cancel');
-    }
-
-    function closeOnRouteUpdate(scope, next, current) {
-        $uibModalInstance.dismiss('Unexpected route change');
     }
 }

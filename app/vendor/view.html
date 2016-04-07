@@ -25,20 +25,20 @@
                         <span class="badge" ng-bind="v.products.length"></span>
                     </td>
                     <td class="cell-crud" nowrap>
-                        <a href="#/vendor/{{ v.id }}" class="vendor-filter">
+                        <a ui-sref="product({id: v.id })" class="vendor-filter">
                             <span class="fa fa-filter" tooltip="Show products from this vendor"></span>
                         </a>
                         <a ui-sref="vendor.edit({id: v.id})" class="vendor-edit">
                             <span class="fa fa-pencil-square-o" tooltip="Edit vendor"></span>
                         </a>
-                        <a href="#/vendor?delete={{ v.id }}" class="vendor-delete">
+                        <a ui-sref="vendor.delete({id: v.id })" class="vendor-delete">
                             <span class="fa fa-trash-o" tooltip="Remove vendor"></span>
                         </a>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <a ui-sref="vendor({new:true})" id="vendor-new" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New vendor</a>
+        <a ui-sref="vendor.new" id="vendor-new" class="btn btn-success" role="button"><span class="fa fa-plus" aria-hidden="true"></span> New vendor</a>
     </div>
     </div>
     </div>

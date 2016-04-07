@@ -14,11 +14,10 @@ function routeConfig($urlRouterProvider, $stateProvider) {
         })
         .state('vendor', {
             title: 'Vendors',
-            url: '/vendor?edit&new&delete',
+            url: '/vendor',
             templateUrl: 'vendor/view.html',
             controller: 'vendorController',
-            controllerAs: 'vm',
-            reloadOnSearch: false
+            controllerAs: 'vm'
         })
         .state('vendor.edit', {
             title: 'Edit Vendor',
@@ -30,6 +29,38 @@ function routeConfig($urlRouterProvider, $stateProvider) {
                     return {
                         templateUrl: 'vendor/modalEdit.html',
                         controller: 'vendorEditController',
+                        controllerAs: 'vm',
+                        backdrop: 'static'
+                    };
+                }
+            }
+        })
+        .state('vendor.new', {
+            title: 'Create Vendor',
+            url: '/new',
+            templateUrl: 'modal/default-template.html',
+            controller: 'modalController',
+            resolve: {
+                modalParams: function() {
+                    return {
+                        templateUrl: 'vendor/modalCreate.html',
+                        controller: 'vendorCreateController',
+                        controllerAs: 'vm',
+                        backdrop: 'static'
+                    };
+                }
+            }
+        })
+        .state('vendor.delete', {
+            title: 'Delete Vendor',
+            url: '/delete/:id',
+            templateUrl: 'modal/default-template.html',
+            controller: 'modalController',
+            resolve: {
+                modalParams: function() {
+                    return {
+                        templateUrl: 'vendor/modalDelete.html',
+                        controller: 'vendorDeleteController',
                         controllerAs: 'vm',
                         backdrop: 'static'
                     };

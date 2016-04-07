@@ -85,6 +85,35 @@ describe('MagManager', function() {
             });
         });
         
+        it('edit again', function() {
+            var vName = vendorList
+                .last()
+                .element(by.binding('name'));
+            
+            expect(vName.isPresent()).toBe(true);
+            
+            vName.getText().then(function(name) {
+                var appendText = 'AGAIN';
+                vendorList
+                    .last()
+                    .element(by.css('.vendor-edit'))
+                    .click();
+                
+                txtVName = element(by.model('vm.vendor.name'));
+                var btnSave = element(by.buttonText('Save'));
+                var btnCancel = element(by.buttonText('Cancel'));
+                
+                expect(txtVName.isPresent()).toBe(true);
+                expect(btnSave.isPresent()).toBe(true);
+                expect(btnCancel.isPresent()).toBe(true);
+                
+                txtVName.sendKeys(appendText);
+                btnSave.click();
+                
+                expect(vName.getText()).toEqual(name + appendText);
+            });
+        });
+        
         it('delete', function() {
             vendorList.count().then(function(vendorCount) {
                 vendorList
